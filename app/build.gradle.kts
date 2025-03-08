@@ -52,7 +52,9 @@ dependencies {
     implementation(libs.androidx.material3)
 
     // Audio dependencies
-    implementation(libs.exoplayer)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.media3.ui)
 
     // Lifecycle dependencies
     implementation(libs.androidx.lifecycle.viewmodel)
@@ -64,6 +66,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.service)
     implementation(libs.core.ktx)
+    implementation(libs.androidx.media3.session)
 
     // Testing dependencies
     testImplementation(libs.junit)

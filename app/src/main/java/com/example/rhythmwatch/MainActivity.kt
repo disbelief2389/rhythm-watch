@@ -216,7 +216,7 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private val _currentTime = MutableStateFlow("00:00")
+    private val _currentTime = MutableStateFlow("00:00:00")
     val currentTime = _currentTime.asStateFlow()
 
     private val _isRunning = MutableStateFlow(false)
@@ -263,7 +263,7 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
         context.startService(intent)
         _isRunning.value = false
         _isBreakMode.value = false
-        _currentTime.value = "00:00"
+        _currentTime.value = "00:00:00" // Ensure the UI reflects the reset
     }
 }
 

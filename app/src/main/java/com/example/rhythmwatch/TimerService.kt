@@ -9,27 +9,26 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
-import android.media.SoundPool
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.*
+import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.DefaultLoadControl
+import androidx.media3.exoplayer.ExoPlayer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.util.Locale
-import android.media.MediaPlayer
-import android.media.AudioManager.OnAudioFocusChangeListener
-import androidx.lifecycle.lifecycleScope
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.asStateFlow
 
 class TimerService : LifecycleService() {
     inner class LocalBinder : Binder() {
@@ -41,7 +40,7 @@ class TimerService : LifecycleService() {
         return LocalBinder()  // Return the binder
     }
 
-    private val _timeUpdates = MutableStateFlow("00:00")
+    private val _timeUpdates = MutableStateFlow("00:00:00")
     val timeUpdates = _timeUpdates.asStateFlow()
 
     private val notificationChannelId = "TimerChannel"
@@ -71,25 +70,25 @@ class TimerService : LifecycleService() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-        initializeExoPlayer()
+        initializePlayer()
         playWelcomeSound()
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val audioAttributes = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build()
+            val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
 
             audioFocusChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
                 when (focusChange) {
                     AudioManager.AUDIOFOCUS_GAIN -> {
                         exoPlayer?.play()
                     }
+
                     AudioManager.AUDIOFOCUS_LOSS, AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
                         exoPlayer?.pause()
                     }
+
                     AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
                         exoPlayer?.volume = 0.2f
                     }
@@ -106,9 +105,11 @@ class TimerService : LifecycleService() {
                     AudioManager.AUDIOFOCUS_GAIN -> {
                         exoPlayer?.play()
                     }
+
                     AudioManager.AUDIOFOCUS_LOSS, AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
                         exoPlayer?.pause()
                     }
+
                     AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
                         exoPlayer?.volume = 0.2f
                     }
@@ -123,8 +124,9 @@ class TimerService : LifecycleService() {
                 return audioManager?.requestAudioFocus(it) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
             }
         } else {
-            @Suppress("DEPRECATION")
-            return audioManager?.requestAudioFocus(audioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+            @Suppress("DEPRECATION") return audioManager?.requestAudioFocus(
+                audioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN
+            ) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
         }
         return false
     }
@@ -135,8 +137,7 @@ class TimerService : LifecycleService() {
                 audioManager?.abandonAudioFocusRequest(it)
             }
         } else {
-            @Suppress("DEPRECATION")
-            audioManager?.abandonAudioFocus(audioFocusChangeListener)
+            @Suppress("DEPRECATION") audioManager?.abandonAudioFocus(audioFocusChangeListener)
         }
     }
 
@@ -162,9 +163,10 @@ class TimerService : LifecycleService() {
             while (_isRunning.value) {
                 delay(1000)
                 workTimeInSeconds++
-                val minutes = (workTimeInSeconds / 60) % 60
+                val hours = workTimeInSeconds / 3600
+                val minutes = (workTimeInSeconds % 3600) / 60
                 val seconds = workTimeInSeconds % 60
-                val currentTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+                val currentTime = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
                 updateNotification(currentTime)
                 _timeUpdates.value = currentTime
 
@@ -184,11 +186,11 @@ class TimerService : LifecycleService() {
         // Get the break time from the intent
         val breakTime = intent.getStringExtra("BREAK_TIME") ?: "00:00"
         val timeParts = breakTime.split(":").map { it.toIntOrNull() ?: 0 }
-        breakTimeInSeconds = timeParts[0] * 60 + timeParts[1]
+        breakTimeInSeconds = timeParts[0] * 3600 + timeParts[1] * 60 + timeParts.getOrNull(2)!!
         Log.d("TimerService", "Break Time in Seconds: $breakTimeInSeconds")
 
         // Ensure the initial time is set correctly
-        val initialTime = String.format(Locale.getDefault(), "%02d:%02d", timeParts[0], timeParts[1])
+        val initialTime = String.format(Locale.getDefault(), "%02d:%02d:%02d", timeParts[0], timeParts[1], timeParts.getOrNull(2) ?: 0)
         _timeUpdates.value = initialTime
         updateNotification(initialTime)
 
@@ -197,17 +199,18 @@ class TimerService : LifecycleService() {
             while (breakTimeInSeconds > 0) {
                 delay(1000)
                 breakTimeInSeconds--
-                val minutes = (breakTimeInSeconds / 60) % 60
+                val hours = breakTimeInSeconds / 3600
+                val minutes = (breakTimeInSeconds % 3600) / 60
                 val seconds = breakTimeInSeconds % 60
-                val currentTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+                val currentTime = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
                 Log.d("TimerService", "Current Time: $currentTime")
                 updateNotification(currentTime)
                 _timeUpdates.value = currentTime
             }
             _isBreakMode.value = false
             workTimeInSeconds = 0
-            _timeUpdates.value = "00:00" // Reset to 00:00 after break
-            updateNotification("00:00")
+            _timeUpdates.value = "00:00:00" // Reset to 00:00:00 after break
+            updateNotification("00:00:00")
             playBreakOverSound()
         }
     }
@@ -219,6 +222,8 @@ class TimerService : LifecycleService() {
         breakJob?.cancel()
         ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
         stopSelf()
+        _timeUpdates.value = "00:00:00" // Reset to 00:00:00
+        updateNotification("00:00:00")
     }
 
     private fun updateNotification(time: String) {
@@ -231,65 +236,65 @@ class TimerService : LifecycleService() {
             val openAppIntent = Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             }
-            val pendingIntent = PendingIntent.getActivity(this, 0, openAppIntent, PendingIntent.FLAG_IMMUTABLE)
+            val pendingIntent =
+                PendingIntent.getActivity(this, 0, openAppIntent, PendingIntent.FLAG_IMMUTABLE)
 
             return NotificationCompat.Builder(this, notificationChannelId)
-                .setContentTitle("RhythmWatch")
-                .setContentText(
+                .setContentTitle("RhythmWatch").setContentText(
                     if (_isBreakMode.value) "Break Time: $time"
                     else "Work Time: $time"
-                )
-                .setSmallIcon(R.drawable.ic_notification) // Ensure you have this drawable
-                .setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
+                ).setSmallIcon(R.drawable.ic_notification) // Ensure you have this drawable
+                .setContentIntent(pendingIntent).setPriority(NotificationCompat.PRIORITY_LOW)
                 .build()
         } catch (e: Exception) {
             // Fallback notification
-            NotificationCompat.Builder(this, notificationChannelId)
-                .setContentTitle("RhythmWatch")
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .build()
+            NotificationCompat.Builder(this, notificationChannelId).setContentTitle("RhythmWatch")
+                .setSmallIcon(android.R.drawable.ic_dialog_info).build()
         }
     }
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                notificationChannelId,
-                "Timer Channel",
-                NotificationManager.IMPORTANCE_LOW
+                notificationChannelId, "Timer Channel", NotificationManager.IMPORTANCE_LOW
             )
             channel.description = "Timer Service Notification"
             notificationManager.createNotificationChannel(channel)
         }
     }
 
-    private fun initializeExoPlayer() {
+    private var player: ExoPlayer? = null
+
+    @OptIn(UnstableApi::class)
+    private fun initializePlayer() {
+        @OptIn(UnstableApi::class)
         val loadControl = DefaultLoadControl.Builder()
             .setBufferDurationsMs(
-                5000, // Min Buffer Duration
-                10000, // Max Buffer Duration
-                2500, // Buffer For Playback After Rebuffering
-                5000  // Buffer For Playback
+                30_000, // Min Buffer Duration (30 seconds)
+                60_000, // Max Buffer Duration (60 seconds)
+                5000,   // Buffer for Playback (5 seconds)
+                10_000  // Buffer for Rebuffering (10 seconds)
             )
             .build()
 
-        exoPlayer = ExoPlayer.Builder(this)
+        player = ExoPlayer.Builder(this)
             .setLoadControl(loadControl)
             .build()
     }
 
     private fun playSound(resId: Int) {
-        if (requestAudioFocus()) {
-            exoPlayer?.stop()
-            exoPlayer?.clearMediaItems()
-            val uri = "android.resource://$packageName/$resId"
-            val mediaItem = MediaItem.fromUri(uri)
-            exoPlayer?.setMediaItem(mediaItem)
-            exoPlayer?.prepare()
-            exoPlayer?.play()
-        } else {
-            Log.w("TimerService", "Failed to get audio focus")
+        lifecycleScope.launch(Dispatchers.Main) {
+            if (requestAudioFocus()) {
+                player?.stop()
+                player?.clearMediaItems()
+                val uri = "android.resource://$packageName/$resId"
+                val mediaItem = MediaItem.fromUri(uri)
+                player?.setMediaItem(mediaItem)
+                player?.prepare()
+                player?.play()
+            } else {
+                Log.w("TimerService", "Failed to get audio focus")
+            }
         }
     }
 
@@ -308,8 +313,8 @@ class TimerService : LifecycleService() {
     override fun onDestroy() {
         super.onDestroy()
         abandonAudioFocus()
-        exoPlayer?.release()
-        exoPlayer = null
+        player?.release()
+        player = null
     }
 
     companion object {

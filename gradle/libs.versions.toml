@@ -9,9 +9,11 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
 composeBom = "2024.04.01"
+media3Exoplayer = "1.5.1"
 ui = "1.7.8"
 lifecycleService = "2.8.7"
 coreKtxVersion = "1.6.1"
+media3Session = "1.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -21,6 +23,9 @@ androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmode
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycleRuntimeKtx" }
+androidx-media3-common = { module = "androidx.media3:media3-common", version.ref = "media3Exoplayer" }
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3Exoplayer" }
+androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Exoplayer" }
 exoplayer = { module = "com.google.android.exoplayer:exoplayer", version.ref = "exoplayer" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -38,6 +43,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 androidx-lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "lifecycleService" }
 core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
+androidx-media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3Session" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
