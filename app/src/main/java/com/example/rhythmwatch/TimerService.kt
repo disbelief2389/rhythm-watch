@@ -166,7 +166,8 @@ class TimerService : LifecycleService() {
                 val hours = workTimeInSeconds / 3600
                 val minutes = (workTimeInSeconds % 3600) / 60
                 val seconds = workTimeInSeconds % 60
-                val currentTime = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
+                val currentTime =
+                    String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
                 updateNotification(currentTime)
                 _timeUpdates.value = currentTime
 
@@ -190,7 +191,13 @@ class TimerService : LifecycleService() {
         Log.d("TimerService", "Break Time in Seconds: $breakTimeInSeconds")
 
         // Ensure the initial time is set correctly
-        val initialTime = String.format(Locale.getDefault(), "%02d:%02d:%02d", timeParts[0], timeParts[1], timeParts.getOrNull(2) ?: 0)
+        val initialTime = String.format(
+            Locale.getDefault(),
+            "%02d:%02d:%02d",
+            timeParts[0],
+            timeParts[1],
+            timeParts.getOrNull(2) ?: 0
+        )
         _timeUpdates.value = initialTime
         updateNotification(initialTime)
 
@@ -202,7 +209,8 @@ class TimerService : LifecycleService() {
                 val hours = breakTimeInSeconds / 3600
                 val minutes = (breakTimeInSeconds % 3600) / 60
                 val seconds = breakTimeInSeconds % 60
-                val currentTime = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
+                val currentTime =
+                    String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
                 Log.d("TimerService", "Current Time: $currentTime")
                 updateNotification(currentTime)
                 _timeUpdates.value = currentTime
@@ -267,19 +275,15 @@ class TimerService : LifecycleService() {
 
     @OptIn(UnstableApi::class)
     private fun initializePlayer() {
-        @OptIn(UnstableApi::class)
-        val loadControl = DefaultLoadControl.Builder()
-            .setBufferDurationsMs(
-                30_000, // Min Buffer Duration (30 seconds)
-                60_000, // Max Buffer Duration (60 seconds)
-                5000,   // Buffer for Playback (5 seconds)
-                10_000  // Buffer for Rebuffering (10 seconds)
-            )
-            .build()
+        @OptIn(UnstableApi::class) val loadControl =
+            DefaultLoadControl.Builder().setBufferDurationsMs(
+                    30_000, // Min Buffer Duration (30 seconds)
+                    60_000, // Max Buffer Duration (60 seconds)
+                    5000,   // Buffer for Playback (5 seconds)
+                    10_000  // Buffer for Rebuffering (10 seconds)
+                ).build()
 
-        player = ExoPlayer.Builder(this)
-            .setLoadControl(loadControl)
-            .build()
+        player = ExoPlayer.Builder(this).setLoadControl(loadControl).build()
     }
 
     private fun playSound(resId: Int) {

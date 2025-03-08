@@ -14,6 +14,9 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -105,10 +108,16 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
         else "Tap to start break"
     }
 
+    // Define colors
+    val backgroundColor = animateColorAsState(
+        targetValue = if (isBreakMode) Color.Black else Color.White,
+        animationSpec = tween(durationMillis = 350) // transition time
+    )
+
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(backgroundColor.value) // Use animated background color
             .clickable {
                 if (isBreakMode) {
                     // Do nothing in break mode
@@ -124,7 +133,7 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),  // Debug background
+                .background(backgroundColor.value),  // Debug background
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -138,21 +147,31 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
                 Text(
                     text = currentTime,  // Always show currentTime
                     fontSize = 48.sp,
-                    color = Color.Black
+                    color = if (isBreakMode) Color.White else Color.Black
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = tapLabel, fontSize = 16.sp, color = Color.Gray, textAlign = TextAlign.Center
+                    text = tapLabel,
+                    fontSize = 16.sp,
+                    color = Color.Gray, // Tap label remains grey
+                    textAlign = TextAlign.Center
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { viewModel.resetTimer() },
                 modifier = Modifier.padding(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent, // Transparent background
+                    contentColor = Color.Red            // Red text color
+                ),
+                border = BorderStroke(2.dp, Color.Red), // Red border
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp) // Optional: Remove elevation for a cleaner look
             ) {
                 Text(
-                    text = "Reset", fontSize = 16.sp, color = Color.White
+                    text = "Reset",
+                    fontSize = 16.sp,
+                    color = Color.Red // Red text color
                 )
             }
         }
@@ -190,7 +209,8 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
         super.onCleared()
         try {
             getApplication<Application>().unbindService(serviceConnection)
-        } catch (e: IllegalArgumentException) { /* Ignored */ }
+        } catch (e: IllegalArgumentException) { /* Ignored */
+        }
         timerService = null
     }
 

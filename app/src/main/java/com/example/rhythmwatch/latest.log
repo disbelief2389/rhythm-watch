@@ -1,119 +1,53 @@
 --------- beginning of main
 --------- beginning of system
-2025-03-09 04:02:17.141  1435-1521  SurfaceFlinger          surfaceflinger                       E  Failed to find layer (Splash Screen com.example.rhythmwatch#0) in layer parent (no-parent).
-2025-03-09 04:07:47.411  1921-1942  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-w7Q1HtVTo3jCVGKlc7r_-w==/base.apk
-2025-03-09 04:07:47.411  1921-1942  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-w7Q1HtVTo3jCVGKlc7r_-w==/base.apk
-2025-03-09 04:07:47.411  1921-1942  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-w7Q1HtVTo3jCVGKlc7r_-w==/base.apk
-2025-03-09 04:13:42.036  1921-2175  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-_oCUeVPiaP71ySgoUMEung==/base.apk
-2025-03-09 04:13:42.036  1921-2175  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-_oCUeVPiaP71ySgoUMEung==/base.apk
-2025-03-09 04:13:42.037  1921-2175  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-_oCUeVPiaP71ySgoUMEung==/base.apk
-2025-03-09 04:21:11.500  1921-2286  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-qF7JhOp7ATEFJ0KiKQwUag==/base.apk
-2025-03-09 04:21:11.500  1921-2286  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-qF7JhOp7ATEFJ0KiKQwUag==/base.apk
-2025-03-09 04:21:11.500  1921-2286  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-qF7JhOp7ATEFJ0KiKQwUag==/base.apk
-2025-03-09 04:21:12.362  1435-1482  SurfaceFlinger          surfaceflinger                       E  Failed to find layer (Splash Screen com.example.rhythmwatch#0) in layer parent (no-parent).
-2025-03-09 04:35:21.957  1921-6317  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-7zvWOFF7dm61IbJTJOUxtQ==/base.apk
-2025-03-09 04:35:21.958  1921-6317  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-7zvWOFF7dm61IbJTJOUxtQ==/base.apk
-2025-03-09 04:35:21.958  1921-6317  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-7zvWOFF7dm61IbJTJOUxtQ==/base.apk
---------- beginning of crash
-2025-03-09 04:52:13.340  7060-7371  AndroidRuntime          pid-7060                             E  FATAL EXCEPTION: DefaultDispatcher-worker-2 (Ask Gemini)
-                                                                                                    Process: com.example.rhythmwatch, PID: 7060
-                                                                                                    java.lang.IllegalStateException: Player is accessed on the wrong thread.
-                                                                                                    Current thread: 'DefaultDispatcher-worker-2'
-                                                                                                    Expected thread: 'main'
-                                                                                                    See https://developer.android.com/guide/topics/media/issues/player-accessed-on-wrong-thread
-                                                                                                    	at com.google.android.exoplayer2.ExoPlayerImpl.verifyApplicationThread(ExoPlayerImpl.java:2795)
-                                                                                                    	at com.google.android.exoplayer2.ExoPlayerImpl.stop(ExoPlayerImpl.java:993)
-                                                                                                    	at com.example.rhythmwatch.TimerService.playSound(TimerService.kt:284)
-                                                                                                    	at com.example.rhythmwatch.TimerService.playBreakOverSound(TimerService.kt:305)
-                                                                                                    	at com.example.rhythmwatch.TimerService.access$playBreakOverSound(TimerService.kt:34)
-                                                                                                    	at com.example.rhythmwatch.TimerService$startBreak$1.invokeSuspend(TimerService.kt:211)
-                                                                                                    	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
-                                                                                                    	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
-                                                                                                    	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
-                                                                                                    	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
-                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:584)
-                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:793)
-                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:697)
-                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:684)
-2025-03-09 05:10:46.606  1774-1835  ResourcesManager        system_server                        E  failed to add asset path /data/app/com.example.rhythmwatch-M2-GSkLgU-15IlZVAKPEHQ==/base.apk
-2025-03-09 05:11:05.244  8020-8080  AndroidRuntime          pid-8020                             E  FATAL EXCEPTION: DefaultDispatcher-worker-2 (Ask Gemini)
-                                                                                                    Process: com.example.rhythmwatch, PID: 8020
-                                                                                                    java.lang.IllegalStateException: Player is accessed on the wrong thread.
-                                                                                                    Current thread: 'DefaultDispatcher-worker-2'
-                                                                                                    Expected thread: 'main'
-                                                                                                    See https://developer.android.com/guide/topics/media/issues/player-accessed-on-wrong-thread
-                                                                                                    	at androidx.media3.exoplayer.ExoPlayerImpl.verifyApplicationThread(ExoPlayerImpl.java:2891)
-                                                                                                    	at androidx.media3.exoplayer.ExoPlayerImpl.stop(ExoPlayerImpl.java:1034)
-                                                                                                    	at com.example.rhythmwatch.TimerService.playSound(TimerService.kt:270)
-                                                                                                    	at com.example.rhythmwatch.TimerService.playBreakOverSound(TimerService.kt:291)
-                                                                                                    	at com.example.rhythmwatch.TimerService.access$playBreakOverSound(TimerService.kt:29)
-                                                                                                    	at com.example.rhythmwatch.TimerService$startBreak$1.invokeSuspend(TimerService.kt:206)
-                                                                                                    	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
-                                                                                                    	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
-                                                                                                    	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
-                                                                                                    	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
-                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:584)
-                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:793)
-                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:697)
-                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:684)
-2025-03-09 05:11:05.382  1921-5319  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-M2-GSkLgU-15IlZVAKPEHQ==/base.apk
----------------------------- PROCESS STARTED (8453) for package com.example.rhythmwatch ----------------------------
-2025-03-09 05:12:27.746  8453-8495  OpenGLRenderer          com.example.rhythmwatch              D  HWUI GL Pipeline
-2025-03-09 05:12:28.074  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00
-2025-03-09 05:12:28.214  8453-8495  <no-tag>                com.example.rhythmwatch              D  HostConnection::get() New Host Connection established 0xa49f4900, tid 8495
-2025-03-09 05:12:28.220  8453-8495  OpenGLRenderer          com.example.rhythmwatch              I  Initialized EGL, version 1.4
-2025-03-09 05:12:28.220  8453-8495  OpenGLRenderer          com.example.rhythmwatch              D  Swap behavior 1
-2025-03-09 05:12:28.221  8453-8495  OpenGLRenderer          com.example.rhythmwatch              W  Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
-2025-03-09 05:12:28.221  8453-8495  OpenGLRenderer          com.example.rhythmwatch              D  Swap behavior 0
-2025-03-09 05:12:28.235  8453-8495  EGL_emulation           com.example.rhythmwatch              D  eglCreateContext: 0xa32cb960: maj 2 min 0 rcv 2
-2025-03-09 05:12:28.281  8453-8495  EGL_emulation           com.example.rhythmwatch              D  eglMakeCurrent: 0xa32cb960: ver 2 0 (tinfo 0xae68b530)
-2025-03-09 05:12:28.327  8453-8453  Compose Focus           com.example.rhythmwatch              D  Owner FocusChanged(true)
-2025-03-09 05:12:28.416  8453-8453  ExoPlayerImpl           com.example.rhythmwatch              I  Init 7e23613 [AndroidXMedia3/1.5.1] [generic_x86, Android SDK built for x86, Google, 26]
-2025-03-09 05:12:28.480  8453-8453  Choreographer           com.example.rhythmwatch              I  Skipped 40 frames!  The application may be doing too much work on its main thread.
-2025-03-09 05:12:28.493  8453-8495  EGL_emulation           com.example.rhythmwatch              D  eglMakeCurrent: 0xa32cb960: ver 2 0 (tinfo 0xae68b530)
-2025-03-09 05:12:28.637  8453-8468  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=30KB, data=25KB
-2025-03-09 05:12:28.638  8453-8468  zygote                  com.example.rhythmwatch              I  After code cache collection, code=30KB, data=25KB
-2025-03-09 05:12:28.638  8453-8468  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 128KB
-2025-03-09 05:12:28.789  1435-2132  SurfaceFlinger          surfaceflinger                       E  Failed to find layer (Splash Screen com.example.rhythmwatch#0) in layer parent (no-parent).
-2025-03-09 05:12:28.879  8453-8498  VideoCapabilities       com.example.rhythmwatch              I  Unsupported profile 4 for video/mp4v-es
-2025-03-09 05:12:28.993  8453-8503  OMXClient               com.example.rhythmwatch              I  Treble IOmx obtained
-2025-03-09 05:12:29.032  8453-8503  ACodec                  com.example.rhythmwatch              I  codec does not support config priority (err -2147483648)
-2025-03-09 05:12:29.100  8453-8498  AudioTrack              com.example.rhythmwatch              D  Client defaulted notificationFrames to 3675 for frameCount 11025
-2025-03-09 05:12:31.114  8453-8468  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=60KB, data=46KB
-2025-03-09 05:12:31.114  8453-8468  zygote                  com.example.rhythmwatch              I  After code cache collection, code=60KB, data=46KB
-2025-03-09 05:12:31.114  8453-8468  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 256KB
-2025-03-09 05:12:33.284  8453-8512  ProfileInstaller        com.example.rhythmwatch              D  Installing profile for com.example.rhythmwatch
-2025-03-09 05:14:04.275  8453-8498  AudioTrack              com.example.rhythmwatch              D  stop() called with 294912 frames delivered
-2025-03-09 05:14:05.904  8453-8453  TimerViewModel          com.example.rhythmwatch              D  Start Work
-2025-03-09 05:14:05.909  8453-8453  TimerService            com.example.rhythmwatch              D  Start Work
-2025-03-09 05:14:05.916  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00
-2025-03-09 05:14:06.926  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:01
-2025-03-09 05:14:07.931  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:02
-2025-03-09 05:14:08.927  8453-8468  zygote                  com.example.rhythmwatch              I  Do full code cache collection, code=122KB, data=89KB
-2025-03-09 05:14:08.927  8453-8468  zygote                  com.example.rhythmwatch              I  After code cache collection, code=96KB, data=56KB
-2025-03-09 05:14:08.933  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:03
-2025-03-09 05:14:09.942  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:04
-2025-03-09 05:14:10.938  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:05
-2025-03-09 05:14:11.054  8453-8471  zygote                  com.example.rhythmwatch              I  Debugger is no longer active
-2025-03-09 05:14:11.771  8453-8453  TimerViewModel          com.example.rhythmwatch              D  Start Break
-2025-03-09 05:14:11.776  8453-8453  TimerService            com.example.rhythmwatch              D  Start Break
-2025-03-09 05:14:11.777  8453-8453  TimerService            com.example.rhythmwatch              D  Break Time in Seconds: 5
-2025-03-09 05:14:11.787  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:05
-2025-03-09 05:14:11.946  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:06
-2025-03-09 05:14:11.955  8453-8468  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=104KB, data=96KB
-2025-03-09 05:14:11.955  8453-8468  zygote                  com.example.rhythmwatch              I  After code cache collection, code=104KB, data=96KB
-2025-03-09 05:14:11.955  8453-8468  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 512KB
-2025-03-09 05:14:12.782  8453-8528  TimerService            com.example.rhythmwatch              D  Current Time: 00:04
-2025-03-09 05:14:12.791  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:04
-2025-03-09 05:14:13.786  8453-8528  TimerService            com.example.rhythmwatch              D  Current Time: 00:03
-2025-03-09 05:14:13.798  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:03
-2025-03-09 05:14:14.790  8453-8528  TimerService            com.example.rhythmwatch              D  Current Time: 00:02
-2025-03-09 05:14:14.799  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:02
-2025-03-09 05:14:15.793  8453-8528  TimerService            com.example.rhythmwatch              D  Current Time: 00:01
-2025-03-09 05:14:15.804  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:01
-2025-03-09 05:14:16.797  8453-8528  TimerService            com.example.rhythmwatch              D  Current Time: 00:00
-2025-03-09 05:14:16.815  8453-8453  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00
-2025-03-09 05:14:16.909  8453-8542  OMXClient               com.example.rhythmwatch              I  Treble IOmx obtained
-2025-03-09 05:14:16.910  8453-8542  ACodec                  com.example.rhythmwatch              I  codec does not support config priority (err -2147483648)
-2025-03-09 05:14:16.927  8453-8498  AudioTrack              com.example.rhythmwatch              D  Client defaulted notificationFrames to 3675 for frameCount 11025
-2025-03-09 05:14:24.106  8453-8498  AudioTrack              com.example.rhythmwatch              D  stop() called with 326016 frames delivered
+2025-03-09 05:25:44.093  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-3H6W_1iC8IC9cMO62ltn6A==/base.apk
+2025-03-09 05:25:44.094  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-3H6W_1iC8IC9cMO62ltn6A==/base.apk
+2025-03-09 05:25:44.094  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-3H6W_1iC8IC9cMO62ltn6A==/base.apk
+---------------------------- PROCESS STARTED (7667) for package com.example.rhythmwatch ----------------------------
+2025-03-09 05:33:23.504  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-znadO0ydfdVc6iRdWopREg==/base.apk
+2025-03-09 05:33:23.504  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-znadO0ydfdVc6iRdWopREg==/base.apk
+2025-03-09 05:33:23.504  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-znadO0ydfdVc6iRdWopREg==/base.apk
+2025-03-09 05:33:57.998  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-QqQQ779FfGXXMwXxoIz3Vg==/base.apk
+2025-03-09 05:33:57.999  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-QqQQ779FfGXXMwXxoIz3Vg==/base.apk
+2025-03-09 05:33:57.999  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-QqQQ779FfGXXMwXxoIz3Vg==/base.apk
+2025-03-09 05:40:50.388  1916-1937  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-ah05GszTqCQ-WprKosM0lQ==/base.apk
+2025-03-09 05:40:50.389  1916-1937  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-ah05GszTqCQ-WprKosM0lQ==/base.apk
+2025-03-09 05:40:50.389  1916-1937  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-ah05GszTqCQ-WprKosM0lQ==/base.apk
+2025-03-09 05:41:38.036  1778-1833  ResourcesManager        system_server                        E  failed to add asset path /data/app/com.example.rhythmwatch-1TWLChidoUcty-i8dC5Mfw==/base.apk
+2025-03-09 05:41:38.168  1916-2263  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-1TWLChidoUcty-i8dC5Mfw==/base.apk
+2025-03-09 05:41:38.168  1916-2263  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-1TWLChidoUcty-i8dC5Mfw==/base.apk
+2025-03-09 05:41:38.168  1916-2263  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-1TWLChidoUcty-i8dC5Mfw==/base.apk
+2025-03-09 05:48:11.455  1778-1833  ResourcesManager        system_server                        E  failed to add asset path /data/app/com.example.rhythmwatch-q1Fw9TaAxiKuXNXqh9_h1Q==/base.apk
+2025-03-09 05:48:11.588  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-q1Fw9TaAxiKuXNXqh9_h1Q==/base.apk
+2025-03-09 05:48:11.590  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-q1Fw9TaAxiKuXNXqh9_h1Q==/base.apk
+2025-03-09 05:48:11.590  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-q1Fw9TaAxiKuXNXqh9_h1Q==/base.apk
+2025-03-09 05:49:34.663  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-SEnVYBiFYu7cW5W49KVdug==/base.apk
+2025-03-09 05:49:34.664  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-SEnVYBiFYu7cW5W49KVdug==/base.apk
+2025-03-09 05:49:34.664  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-SEnVYBiFYu7cW5W49KVdug==/base.apk
+2025-03-09 05:52:26.972  7667-7667  zygote                  com.example.rhythmwatch              I  Late-enabling -Xcheck:jni
+2025-03-09 05:52:26.985  7667-7667  zygote                  com.example.rhythmwatch              W  Unexpected CPU variant for X86 using defaults: x86
+2025-03-09 05:52:27.181  7667-7700  OpenGLRenderer          com.example.rhythmwatch              D  HWUI GL Pipeline
+2025-03-09 05:52:27.526  7667-7667  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 05:52:27.662  7667-7700  <no-tag>                com.example.rhythmwatch              D  HostConnection::get() New Host Connection established 0xa86f4800, tid 7700
+2025-03-09 05:52:27.667  7667-7700  OpenGLRenderer          com.example.rhythmwatch              I  Initialized EGL, version 1.4
+2025-03-09 05:52:27.667  7667-7700  OpenGLRenderer          com.example.rhythmwatch              D  Swap behavior 1
+2025-03-09 05:52:27.667  7667-7700  OpenGLRenderer          com.example.rhythmwatch              W  Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+2025-03-09 05:52:27.667  7667-7700  OpenGLRenderer          com.example.rhythmwatch              D  Swap behavior 0
+2025-03-09 05:52:27.678  7667-7700  EGL_emulation           com.example.rhythmwatch              D  eglCreateContext: 0xa86f7b20: maj 2 min 0 rcv 2
+2025-03-09 05:52:27.713  7667-7700  EGL_emulation           com.example.rhythmwatch              D  eglMakeCurrent: 0xa86f7b20: ver 2 0 (tinfo 0xb240b190)
+2025-03-09 05:52:27.748  7667-7667  Compose Focus           com.example.rhythmwatch              D  Owner FocusChanged(true)
+2025-03-09 05:52:27.870  7667-7667  ExoPlayerImpl           com.example.rhythmwatch              I  Init f202107 [AndroidXMedia3/1.5.1] [generic_x86, Android SDK built for x86, Google, 26]
+2025-03-09 05:52:27.959  7667-7667  Choreographer           com.example.rhythmwatch              I  Skipped 41 frames!  The application may be doing too much work on its main thread.
+2025-03-09 05:52:27.977  7667-7700  EGL_emulation           com.example.rhythmwatch              D  eglMakeCurrent: 0xa86f7b20: ver 2 0 (tinfo 0xb240b190)
+2025-03-09 05:52:28.128  7667-7679  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=29KB, data=25KB
+2025-03-09 05:52:28.129  7667-7679  zygote                  com.example.rhythmwatch              I  After code cache collection, code=29KB, data=25KB
+2025-03-09 05:52:28.129  7667-7679  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 128KB
+2025-03-09 05:52:28.452  7667-7703  VideoCapabilities       com.example.rhythmwatch              I  Unsupported profile 4 for video/mp4v-es
+2025-03-09 05:52:28.524  7667-7710  OMXClient               com.example.rhythmwatch              I  Treble IOmx obtained
+2025-03-09 05:52:28.530  7667-7710  ACodec                  com.example.rhythmwatch              I  codec does not support config priority (err -2147483648)
+2025-03-09 05:52:28.595  7667-7703  AudioTrack              com.example.rhythmwatch              D  Client defaulted notificationFrames to 3675 for frameCount 11025
+2025-03-09 05:52:29.949  7667-7679  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=59KB, data=46KB
+2025-03-09 05:52:29.949  7667-7679  zygote                  com.example.rhythmwatch              I  After code cache collection, code=59KB, data=46KB
+2025-03-09 05:52:29.949  7667-7679  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 256KB
+2025-03-09 05:52:32.361  7667-7718  ProfileInstaller        com.example.rhythmwatch              D  Installing profile for com.example.rhythmwatch
+2025-03-09 05:52:35.201  7667-7703  AudioTrack              com.example.rhythmwatch              D  stop() called with 294912 frames delivered
