@@ -163,20 +163,23 @@ class TimerService : LifecycleService() {
             while (_isRunning.value) {
                 delay(1000)
                 workTimeInSeconds++
-                val hours = workTimeInSeconds / 3600
-                val minutes = (workTimeInSeconds % 3600) / 60
-                val seconds = workTimeInSeconds % 60
-                val currentTime =
-                    String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
-                updateNotification(currentTime)
+                val currentTime = formatTime(workTimeInSeconds)
                 _timeUpdates.value = currentTime
+                updateNotification(currentTime)
 
                 // Play interval sound every 30 minutes
-                if (minutes % 30 == 0 && seconds == 0) {
+                if (workTimeInSeconds % 1800 == 0) {
                     playIntervalSound()
                 }
             }
         }
+    }
+
+    private fun formatTime(seconds: Int): String {
+        val hours = seconds / 3600
+        val minutes = (seconds % 3600) / 60
+        val remainingSeconds = seconds % 60
+        return String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, remainingSeconds)
     }
 
     private fun startBreak(intent: Intent) {
