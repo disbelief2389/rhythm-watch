@@ -12,6 +12,7 @@ import android.media.AudioManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.os.SystemClock
 import android.util.Log
 import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
@@ -31,6 +32,9 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 
 class TimerService : LifecycleService() {
+    private var startTime: Long = 0
+    private var elapsedTime: Long = 0
+
     inner class LocalBinder : Binder() {
         fun getService(): TimerService = this@TimerService
     }
@@ -174,28 +178,29 @@ class TimerService : LifecycleService() {
         _isRunning.value = true
         _isBreakMode.value = false
         workTimeInSeconds = 0
+        startTime = SystemClock.elapsedRealtime() - elapsedTime
 
         timerJob = lifecycleScope.launch(Dispatchers.IO) {
+            var lastCheckTime = SystemClock.elapsedRealtime()
             while (_isRunning.value) {
-                delay(1000)
-                workTimeInSeconds++
-                val currentTime = formatTime(workTimeInSeconds)
-                _timeUpdates.value = currentTime
-                updateNotification(currentTime)
+                val currentTime = SystemClock.elapsedRealtime()
+                elapsedTime += currentTime - lastCheckTime
+                lastCheckTime = currentTime
+                val currentTimeStr = formatTime(elapsedTime.toInt() / 1000)
+                _timeUpdates.value = currentTimeStr
+                updateNotification(currentTimeStr)
+                Log.d("TimerService", "Current Time: $currentTimeStr")
 
                 // Play interval sound every 30 minutes
-                if (workTimeInSeconds % 1800 == 0) {
+                if (elapsedTime >= 1800000) { // 30 minutes in milliseconds
                     playIntervalSound()
+                    startTime = SystemClock.elapsedRealtime()
+                    elapsedTime = 0
                 }
+
+                delay(1000)
             }
         }
-    }
-
-    private fun formatTime(seconds: Int): String {
-        val hours = seconds / 3600
-        val minutes = (seconds % 3600) / 60
-        val remainingSeconds = seconds % 60
-        return String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, remainingSeconds)
     }
 
     private fun startBreak(intent: Intent) {
@@ -206,40 +211,49 @@ class TimerService : LifecycleService() {
         // Get the break time from the intent
         val breakTime = intent.getStringExtra("BREAK_TIME") ?: "00:00"
         val timeParts = breakTime.split(":").map { it.toIntOrNull() ?: 0 }
-        breakTimeInSeconds = timeParts[0] * 3600 + timeParts[1] * 60 + timeParts.getOrNull(2)!!
-        Log.d("TimerService", "Break Time in Seconds: $breakTimeInSeconds")
+        elapsedTime = timeParts[0] * 3600000L + timeParts[1] * 60000L + timeParts.getOrNull(2)!! * 1000L
+        startTime = SystemClock.elapsedRealtime()
 
         // Ensure the initial time is set correctly
-        val initialTime = String.format(
-            Locale.getDefault(),
-            "%02d:%02d:%02d",
-            timeParts[0],
-            timeParts[1],
-            timeParts.getOrNull(2) ?: 0
-        )
+        val initialTime = formatTime((elapsedTime / 1000).toInt())
         _timeUpdates.value = initialTime
         updateNotification(initialTime)
 
         // Start the break countdown
         breakJob = lifecycleScope.launch(Dispatchers.IO) {
-            while (breakTimeInSeconds > 0) {
+            var lastCheckTime = SystemClock.elapsedRealtime()
+            while (elapsedTime > 0) {
+                val currentTime = SystemClock.elapsedRealtime()
+                elapsedTime -= currentTime - lastCheckTime
+                lastCheckTime = currentTime
+
+                if (elapsedTime <= 0) {
+                    elapsedTime = 0
+                }
+
+                val currentTimeStr = formatTime((elapsedTime / 1000).toInt())
+                Log.d("TimerService", "Current Break Time: $currentTimeStr")
+                updateNotification(currentTimeStr)
+                _timeUpdates.value = currentTimeStr
+
                 delay(1000)
-                breakTimeInSeconds--
-                val hours = breakTimeInSeconds / 3600
-                val minutes = (breakTimeInSeconds % 3600) / 60
-                val seconds = breakTimeInSeconds % 60
-                val currentTime =
-                    String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
-                Log.d("TimerService", "Current Time: $currentTime")
-                updateNotification(currentTime)
-                _timeUpdates.value = currentTime
             }
             _isBreakMode.value = false
-            workTimeInSeconds = 0
+            startTime = 0
+            elapsedTime = 0
             _timeUpdates.value = "00:00:00" // Reset to 00:00:00 after break
             updateNotification("00:00:00")
             playBreakOverSound()
         }
+    }
+
+    private fun formatTime(seconds: Int): String {
+        val hours = seconds / 3600
+        val minutes = (seconds % 3600) / 60
+        val remainingSeconds = seconds % 60
+        return String.format(
+            Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, remainingSeconds
+        )
     }
 
     private fun stopTimer() {
@@ -296,11 +310,11 @@ class TimerService : LifecycleService() {
     private fun initializePlayer() {
         @OptIn(UnstableApi::class) val loadControl =
             DefaultLoadControl.Builder().setBufferDurationsMs(
-                    30_000, // Min Buffer Duration (30 seconds)
-                    60_000, // Max Buffer Duration (60 seconds)
-                    5000,   // Buffer for Playback (5 seconds)
-                    10_000  // Buffer for Rebuffering (10 seconds)
-                ).build()
+                30_000, // Min Buffer Duration (30 seconds)
+                60_000, // Max Buffer Duration (60 seconds)
+                5000,   // Buffer for Playback (5 seconds)
+                10_000  // Buffer for Rebuffering (10 seconds)
+            ).build()
 
         player = ExoPlayer.Builder(this).setLoadControl(loadControl).build()
     }

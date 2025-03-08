@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.service)
     implementation(libs.core.ktx)
     implementation(libs.androidx.media3.session)
+    implementation(libs.androidx.work.runtime.ktx)
 
     // Testing dependencies
     testImplementation(libs.junit)
