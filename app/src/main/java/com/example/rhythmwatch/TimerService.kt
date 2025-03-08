@@ -51,12 +51,10 @@ class TimerService : LifecycleService() {
     private val notificationId = 1
 
     private var workTimeInSeconds = 0
-    private var breakTimeInSeconds = 0
 
     private val _isRunning = MutableStateFlow(false)
     private val _isBreakMode = MutableStateFlow(false)
 
-    val isRunning = _isRunning.asStateFlow()
     val isBreakMode = _isBreakMode.asStateFlow()
 
     private var timerJob: Job? = null
@@ -268,7 +266,7 @@ class TimerService : LifecycleService() {
         updateNotification("00:00:00")
         startTime = 0 // Reset startTime
         elapsedTime = 0 // Reset elapsedTime
-        saveState(this, false, false, "00:00:00") // Save the reset state
+        saveState(this, false, isBreakMode = false, currentTime = "00:00:00") // Save the reset state
     }
 
     private fun updateNotification(time: String) {
