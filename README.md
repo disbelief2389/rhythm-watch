@@ -1,3 +1,4 @@
+
 # RhythmWatch – Dynamic Pomodoro Timer
 
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-1.9.0-blue.svg)](https://kotlinlang.org)
@@ -5,7 +6,7 @@
 
 An open-source Android app offering a dynamic Pomodoro experience with adaptive work/break cycles and audio reminders.
 
-![App Preview](screenshots/demo.gif) <!-- Add your own screenshot path later -->
+<!-- ![App Preview](screenshots/demo.gif) -->
 
 ## ✨ Core Features
 
@@ -46,4 +47,61 @@ An open-source Android app offering a dynamic Pomodoro experience with adaptive 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/hybridTime.git
+   git clone https://github.com/disbelief2389/rhythm-watch.git
+   ```
+2. Open project in Android Studio (Arctic Fox 2020.3.1+ recommended)
+3. Build & run on device/emulator
+
+## 📋 Usage
+
+1. **Start Working**: Tap screen to begin stopwatch.
+2. **Take Break**: Tap again to start 1:1 break timer.
+3. **Audio Reminders**:
+   - Hear a chime when break ends
+   - Get subtle alerts every 30 minutes
+4. Background operation continues until manually stopped
+
+## 🔧 Dependencies
+
+- [Jetpack Compose](https://developer.android.com/jetpack/compose) - Modern UI toolkit
+- AndroidX Lifecycle - Service state management
+- [Material 3](https://m3.material.io) - Theming system
+
+## 🤝 Contributing
+
+PRs welcome! Please follow:
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit changes (`git commit -am 'Add some fooBar'`)
+4. Push to branch (`git push origin feature/fooBar`)
+5. Open Pull Request
+
+## 📄 License
+
+```text
+MIT License
+
+Copyright (c) 2023 Your Name
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+**Optimized for focus** • **Respects your workflow** • **Open-source freedom**
