@@ -10,11 +10,13 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -96,7 +98,6 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
     val currentTime by viewModel.currentTime.collectAsState()
     val isRunning by viewModel.isRunning.collectAsState()
     val isBreakMode by viewModel.isBreakMode.collectAsState()
-    val breakTime by viewModel.breakTime.collectAsState()
 
     val tapLabel = remember(isRunning, isBreakMode) {
         if (isBreakMode) "Enjoy your break!"
@@ -121,18 +122,30 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
             }, contentAlignment = Alignment.Center
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White),  // Debug background
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = if (isBreakMode) breakTime else currentTime,
-                fontSize = 48.sp,
-                color = Color.Black
-            )
+            Column(
+                modifier = Modifier
+                    .weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Log.d("TimerScreen", "Current Time: $currentTime")
+                Text(
+                    text = currentTime,  // Always show currentTime
+                    fontSize = 48.sp,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = tapLabel, fontSize = 16.sp, color = Color.Gray, textAlign = TextAlign.Center
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = tapLabel, fontSize = 16.sp, color = Color.Gray, textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = { viewModel.resetTimer() },
                 modifier = Modifier.padding(16.dp),
@@ -175,8 +188,10 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
 
     override fun onCleared() {
         super.onCleared()
-        getApplication<Application>().unbindService(serviceConnection)
-        timerService = null // Clear the WeakReference
+        try {
+            getApplication<Application>().unbindService(serviceConnection)
+        } catch (e: IllegalArgumentException) { /* Ignored */ }
+        timerService = null
     }
 
     init {
@@ -190,8 +205,13 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun observeTimeUpdates() {
         viewModelScope.launch {
-            timerService?.get()?.timeUpdates?.collect { time: String -> // Access via WeakReference
+            timerService?.get()?.timeUpdates?.collect { time: String ->
                 _currentTime.value = time
+            }
+        }
+        viewModelScope.launch {
+            timerService?.get()?.isBreakMode?.collect { isBreak ->
+                _isBreakMode.value = isBreak
             }
         }
     }
@@ -205,13 +225,10 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
     private val _isBreakMode = MutableStateFlow(false)
     val isBreakMode = _isBreakMode.asStateFlow()
 
-    private val _breakTime = MutableStateFlow("00:00")
-    val breakTime = _breakTime.asStateFlow()
-
-    fun startWork() { // Remove context parameter
+    fun startWork() {
+        Log.d("TimerViewModel", "Start Work")
         _isRunning.value = true
         _isBreakMode.value = false
-        _breakTime.value = "00:00"
 
         val context = getApplication<Application>()
         val intent = Intent(context, TimerService::class.java).apply {
@@ -220,18 +237,25 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
         ContextCompat.startForegroundService(context, intent)
     }
 
-    fun startBreak() { // Remove context parameter
+    fun startBreak() {
+        Log.d("TimerViewModel", "Start Break")
         _isRunning.value = false
         _isBreakMode.value = true
+
+        // Immediately set the break time to the current work time
+        val currentWorkTime = _currentTime.value
+        _currentTime.value = currentWorkTime
 
         val context = getApplication<Application>()
         val intent = Intent(context, TimerService::class.java).apply {
             action = TimerService.ACTION_START_BREAK
+            putExtra("BREAK_TIME", currentWorkTime)
         }
         ContextCompat.startForegroundService(context, intent)
     }
 
-    fun resetTimer() { // Remove context parameter
+    fun resetTimer() {
+        Log.d("TimerViewModel", "Reset Timer")
         val context = getApplication<Application>()
         val intent = Intent(context, TimerService::class.java).apply {
             action = TimerService.ACTION_RESET
@@ -240,7 +264,6 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
         _isRunning.value = false
         _isBreakMode.value = false
         _currentTime.value = "00:00"
-        _breakTime.value = "00:00"
     }
 }
 

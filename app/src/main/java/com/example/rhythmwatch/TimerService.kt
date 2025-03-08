@@ -37,8 +37,12 @@ class TimerService : LifecycleService() {
 
     private var workTimeInSeconds = 0
     private var breakTimeInSeconds = 0
-    private var isRunning = false
-    private var isBreakMode = false
+
+    private val _isRunning = MutableStateFlow(false)
+    private val _isBreakMode = MutableStateFlow(false)
+
+    val isRunning = _isRunning.asStateFlow()
+    val isBreakMode = _isBreakMode.asStateFlow()
 
     private var timerJob: Job? = null
     private var breakJob: Job? = null
@@ -57,7 +61,7 @@ class TimerService : LifecycleService() {
         intent?.let {
             when (it.action) {
                 ACTION_START_WORK -> startWork()
-                ACTION_START_BREAK -> startBreak()
+                ACTION_START_BREAK -> startBreak(it)
                 ACTION_RESET -> stopTimer()
             }
         }
@@ -65,42 +69,62 @@ class TimerService : LifecycleService() {
     }
 
     private fun startWork() {
-        isRunning = true
-        isBreakMode = false
+        Log.d("TimerService", "Start Work")
+        _isRunning.value = true
+        _isBreakMode.value = false
         workTimeInSeconds = 0
 
         timerJob = lifecycleScope.launch(Dispatchers.IO) {
-            while (isRunning) {
+            while (_isRunning.value) {
                 delay(1000)
                 workTimeInSeconds++
                 val minutes = (workTimeInSeconds / 60) % 60
                 val seconds = workTimeInSeconds % 60
                 val currentTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
                 updateNotification(currentTime)
+                _timeUpdates.value = currentTime
             }
         }
     }
 
-    private fun startBreak() {
-        isRunning = false
-        isBreakMode = true
+    private fun startBreak(intent: Intent) {
+        Log.d("TimerService", "Start Break")
+        _isRunning.value = false
+        _isBreakMode.value = true
 
-        breakTimeInSeconds = workTimeInSeconds
+        // Get the break time from the intent
+        val breakTime = intent.getStringExtra("BREAK_TIME") ?: "00:00"
+        val timeParts = breakTime.split(":").map { it.toIntOrNull() ?: 0 }
+        breakTimeInSeconds = timeParts[0] * 60 + timeParts[1]
+        Log.d("TimerService", "Break Time in Seconds: $breakTimeInSeconds")
 
+        // Ensure the initial time is set correctly
+        val initialTime = String.format(Locale.getDefault(), "%02d:%02d", timeParts[0], timeParts[1])
+        _timeUpdates.value = initialTime
+        updateNotification(initialTime)
+
+        // Start the break countdown
         breakJob = lifecycleScope.launch(Dispatchers.IO) {
             while (breakTimeInSeconds > 0) {
                 delay(1000)
                 breakTimeInSeconds--
-                // Update notification
+                val minutes = (breakTimeInSeconds / 60) % 60
+                val seconds = breakTimeInSeconds % 60
+                val currentTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+                Log.d("TimerService", "Current Time: $currentTime")
+                updateNotification(currentTime)
+                _timeUpdates.value = currentTime
             }
-            isBreakMode = false
+            _isBreakMode.value = false
             workTimeInSeconds = 0
-            stopTimer() // Automatically stop service after break
+            _timeUpdates.value = "00:00" // Reset to 00:00 after break
+            updateNotification("00:00")
         }
     }
 
     private fun stopTimer() {
-        isRunning = false
+        Log.d("TimerService", "Stop Timer")
+        _isRunning.value = false
         timerJob?.cancel()
         breakJob?.cancel()
         ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
@@ -121,7 +145,10 @@ class TimerService : LifecycleService() {
 
             return NotificationCompat.Builder(this, notificationChannelId)
                 .setContentTitle("RhythmWatch")
-                .setContentText(if (isBreakMode) "Break Time: $time" else "Work Time: $time")
+                .setContentText(
+                    if (_isBreakMode.value) "Break Time: $time"
+                    else "Work Time: $time"
+                )
                 .setSmallIcon(R.drawable.ic_notification) // Ensure you have this drawable
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
