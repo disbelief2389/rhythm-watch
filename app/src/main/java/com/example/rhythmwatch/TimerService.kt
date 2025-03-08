@@ -116,6 +116,22 @@ class TimerService : LifecycleService() {
                 }
             }
         }
+
+        // Restore state after setting up audio focus
+        val (isRunning, isBreakMode, currentTime) = restoreState(this)
+        _isRunning.value = isRunning
+        _isBreakMode.value = isBreakMode
+        _timeUpdates.value = currentTime
+
+        if (isRunning) {
+            if (isBreakMode) {
+                startBreak(Intent(this, TimerService::class.java).apply {
+                    putExtra("BREAK_TIME", currentTime)
+                })
+            } else {
+                startWork()
+            }
+        }
     }
 
     private fun requestAudioFocus(): Boolean {

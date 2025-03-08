@@ -1,19 +1,25 @@
 package com.example.rhythmwatch
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.os.PowerManager
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -56,6 +62,7 @@ import java.lang.ref.WeakReference
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: TimerViewModel
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,6 +70,9 @@ class MainActivity : ComponentActivity() {
         createNotificationChannel()
 
         enableEdgeToEdge()
+
+        // Request ignore battery optimizations
+        requestIgnoreBatteryOptimizations()
 
         // Initialize ViewModel with custom factory
         val viewModelFactory = TimerViewModelFactory(application)
@@ -92,6 +102,18 @@ class MainActivity : ComponentActivity() {
 
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    @SuppressLint("BatteryLife")
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun requestIgnoreBatteryOptimizations() {
+        val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        val packageName = packageName
+        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+            val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+            intent.data = Uri.parse("package:$packageName")
+            startActivity(intent)
         }
     }
 }
@@ -302,4 +324,32 @@ fun TimerScreenPreview() {
     RhythmWatchTheme {
         TimerScreen(viewModel = TimerViewModel(ApplicationProvider.getApplicationContext()))
     }
+}
+
+class BootCompletedReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
+            val serviceIntent = Intent(context, TimerService::class.java)
+            ContextCompat.startForegroundService(context, serviceIntent)
+        }
+    }
+}
+
+fun saveState(context: Context, isRunning: Boolean, isBreakMode: Boolean, currentTime: String) {
+    val prefs = context.getSharedPreferences("TimerPrefs", Context.MODE_PRIVATE)
+    with(prefs.edit()) {
+        putBoolean("isRunning", isRunning)
+        putBoolean("isBreakMode", isBreakMode)
+        putString("currentTime", currentTime)
+        apply()
+    }
+}
+
+fun restoreState(context: Context): Triple<Boolean, Boolean, String> {
+    val prefs = context.getSharedPreferences("TimerPrefs", Context.MODE_PRIVATE)
+    return Triple(
+        prefs.getBoolean("isRunning", false),
+        prefs.getBoolean("isBreakMode", false),
+        prefs.getString("currentTime", "00:00:00")!!
+    )
 }
