@@ -5,10 +5,13 @@
 [![Android SDK](https://img.shields.io/badge/Android%20SDK-34-green.svg)](https://developer.android.com)
 
 An open-source Android app offering a dynamic Pomodoro experience with adaptive work/break cycles and audio reminders.
+I am making this app in order to aid in my personal weight-loss journey, as I am the most overweight I have ever been.
+
+**Note:** *This readme is simply the project scope/outline, and does not define the current state of the project until the project is finished.*
 
 <!-- ![App Preview](screenshots/demo.gif) -->
 
-## ✨ Core Features
+## Core Features
 
 - **Dynamic Timer System**
   - **Work Mode**: Stopwatch tracks focused work time.
@@ -28,7 +31,7 @@ An open-source Android app offering a dynamic Pomodoro experience with adaptive 
   - Clean, gesture-driven interface.
   - Real-time updates with animated color transitions.
 
-## 🛠️ Technical Overview
+## Technical Overview
 
 ### Architecture
 | Layer              | Components                          |
@@ -43,13 +46,13 @@ An open-source Android app offering a dynamic Pomodoro experience with adaptive 
 - Kotlin 1.9.0
 - [Samsung Galaxy S9+](https://www.samsung.com) tested configuration
 
-## 🚀 Installation
+## Installation
 
 1. **Clone the repository**
    ```bash
    git clone https://github.com/disbelief2389/rhythm-watch.git
    ```
-2. Open project in Android Studio (Arctic Fox 2020.3.1+ recommended)
+2. Open project in Android Studio
 3. Build & run on device/emulator
 
 ## 📋 Usage
@@ -66,6 +69,9 @@ An open-source Android app offering a dynamic Pomodoro experience with adaptive 
 - [Jetpack Compose](https://developer.android.com/jetpack/compose) - Modern UI toolkit
 - AndroidX Lifecycle - Service state management
 - [Material 3](https://m3.material.io) - Theming system
+
+## Development Environment
+Developed using **Android Studio Ladybug (2024.2.2 Patch 2)** on **Windows 10** with **OpenJDK 21** and experimental UI features enabled.
 
 ## 🤝 Contributing
 
