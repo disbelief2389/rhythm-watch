@@ -1,6 +1,15 @@
 package com.example.rhythmwatch
 
+import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +21,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,32 +36,57 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.test.core.app.ApplicationProvider
 import com.example.rhythmwatch.ui.theme.RhythmWatchTheme
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Locale
+import java.lang.ref.WeakReference
 
 class MainActivity : ComponentActivity() {
+    private lateinit var viewModel: TimerViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Create notification channel (critical for Android 8+)
+        createNotificationChannel()
+
         enableEdgeToEdge()
+
+        // Initialize ViewModel with custom factory
+        val viewModelFactory = TimerViewModelFactory(application)
+        viewModel = ViewModelProvider(this, viewModelFactory)[TimerViewModel::class.java]
+
         setContent {
             RhythmWatchTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
                     TimerScreen(
-                        viewModel = viewModel(),
-                        modifier = Modifier.padding(innerPadding)
+                        viewModel = viewModel, modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "TimerChannel",  // Must match service channel ID
+                "Timer Notifications", NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                description = "Background timer updates"
+            }
+
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 }
@@ -63,7 +99,7 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
     val breakTime by viewModel.breakTime.collectAsState()
 
     val tapLabel = remember(isRunning, isBreakMode) {
-        if (isBreakMode) "Break Time: $breakTime"
+        if (isBreakMode) "Enjoy your break!"
         else if (!isRunning) "Tap to start work"
         else "Tap to start break"
     }
@@ -82,29 +118,84 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
                         viewModel.startWork()
                     }
                 }
-            },
-        contentAlignment = Alignment.Center
+            }, contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = currentTime,
+                text = if (isBreakMode) breakTime else currentTime,
                 fontSize = 48.sp,
                 color = Color.Black
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = tapLabel,
-                fontSize = 16.sp,
-                color = Color.Gray,
-                textAlign = TextAlign.Center
+                text = tapLabel, fontSize = 16.sp, color = Color.Gray, textAlign = TextAlign.Center
             )
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                onClick = { viewModel.resetTimer() },
+                modifier = Modifier.padding(16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+            ) {
+                Text(
+                    text = "Reset", fontSize = 16.sp, color = Color.White
+                )
+            }
         }
     }
 }
 
-class TimerViewModel : ViewModel() {
+class TimerViewModel(application: Application) : AndroidViewModel(application) {
+    private var timerService: WeakReference<TimerService>? = null
+
+    private class TimerServiceConnection(
+        private val viewModelRef: WeakReference<TimerViewModel>
+    ) : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
+            viewModelRef.get()?.onServiceConnected(binder)
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            viewModelRef.get()?.onServiceDisconnected()
+        }
+    }
+
+    private fun onServiceConnected(binder: IBinder?) {
+        val service = (binder as TimerService.LocalBinder).getService()
+        timerService = WeakReference(service) // Wrap in WeakReference
+        observeTimeUpdates()
+    }
+
+    private fun onServiceDisconnected() {
+        timerService = null
+    }
+
+    private val serviceConnection = TimerServiceConnection(WeakReference(this))
+
+    override fun onCleared() {
+        super.onCleared()
+        getApplication<Application>().unbindService(serviceConnection)
+        timerService = null // Clear the WeakReference
+    }
+
+    init {
+        // Start observing when ViewModel is created
+        getApplication<Application>().bindService(
+            Intent(getApplication(), TimerService::class.java),
+            serviceConnection,
+            Context.BIND_AUTO_CREATE
+        )
+    }
+
+    private fun observeTimeUpdates() {
+        viewModelScope.launch {
+            timerService?.get()?.timeUpdates?.collect { time: String -> // Access via WeakReference
+                _currentTime.value = time
+            }
+        }
+    }
+
     private val _currentTime = MutableStateFlow("00:00")
     val currentTime = _currentTime.asStateFlow()
 
@@ -117,49 +208,48 @@ class TimerViewModel : ViewModel() {
     private val _breakTime = MutableStateFlow("00:00")
     val breakTime = _breakTime.asStateFlow()
 
-    private var timerJob: Job? = null
-    private var breakJob: Job? = null
-
-    fun startWork() {
+    fun startWork() { // Remove context parameter
         _isRunning.value = true
         _isBreakMode.value = false
         _breakTime.value = "00:00"
-        timerJob = viewModelScope.launch {
-            val startTime = System.currentTimeMillis()
-            while (_isRunning.value) {
-                delay(1000)
-                val elapsedTime = (System.currentTimeMillis() - startTime) / 1000
-                val minutes = (elapsedTime / 60) % 60
-                val seconds = elapsedTime % 60
-                _currentTime.value = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
-            }
+
+        val context = getApplication<Application>()
+        val intent = Intent(context, TimerService::class.java).apply {
+            action = TimerService.ACTION_START_WORK
         }
+        ContextCompat.startForegroundService(context, intent)
     }
 
-    fun startBreak() {
+    fun startBreak() { // Remove context parameter
         _isRunning.value = false
         _isBreakMode.value = true
-        timerJob?.cancel()
-        val workTimeInSeconds = currentTime.value.split(":").let { (minutes, seconds) ->
-            minutes.toInt() * 60 + seconds.toInt()
+
+        val context = getApplication<Application>()
+        val intent = Intent(context, TimerService::class.java).apply {
+            action = TimerService.ACTION_START_BREAK
         }
-        breakJob = viewModelScope.launch {
-            var breakTimeInSeconds = workTimeInSeconds
-            while (breakTimeInSeconds > 0) {
-                delay(1000)
-                breakTimeInSeconds--
-                val minutes = breakTimeInSeconds / 60
-                val seconds = breakTimeInSeconds % 60
-                _breakTime.value = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
-            }
-            _isBreakMode.value = false
-            _breakTime.value = "00:00"
-        }
+        ContextCompat.startForegroundService(context, intent)
     }
 
-    fun stopTimer() {
+    fun resetTimer() { // Remove context parameter
+        val context = getApplication<Application>()
+        val intent = Intent(context, TimerService::class.java).apply {
+            action = TimerService.ACTION_RESET
+        }
+        context.startService(intent)
         _isRunning.value = false
-        timerJob?.cancel()
+        _isBreakMode.value = false
+        _currentTime.value = "00:00"
+        _breakTime.value = "00:00"
+    }
+}
+
+class TimerViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(TimerViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST") return TimerViewModel(application) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
@@ -167,6 +257,6 @@ class TimerViewModel : ViewModel() {
 @Composable
 fun TimerScreenPreview() {
     RhythmWatchTheme {
-        TimerScreen(viewModel = TimerViewModel())
+        TimerScreen(viewModel = TimerViewModel(ApplicationProvider.getApplicationContext()))
     }
 }
