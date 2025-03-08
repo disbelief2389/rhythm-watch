@@ -167,7 +167,7 @@ class TimerService : LifecycleService() {
             when (it.action) {
                 ACTION_START_WORK -> startWork()
                 ACTION_START_BREAK -> startBreak(it)
-                ACTION_RESET -> stopTimer()
+                ACTION_RESET -> resetTimer()
             }
         }
         return START_STICKY
@@ -178,7 +178,8 @@ class TimerService : LifecycleService() {
         _isRunning.value = true
         _isBreakMode.value = false
         workTimeInSeconds = 0
-        startTime = SystemClock.elapsedRealtime() - elapsedTime
+        startTime = SystemClock.elapsedRealtime() // Reset startTime
+        elapsedTime = 0 // Reset elapsedTime
 
         timerJob = lifecycleScope.launch(Dispatchers.IO) {
             var lastCheckTime = SystemClock.elapsedRealtime()
@@ -256,8 +257,8 @@ class TimerService : LifecycleService() {
         )
     }
 
-    private fun stopTimer() {
-        Log.d("TimerService", "Stop Timer")
+    private fun resetTimer() {
+        Log.d("TimerService", "Reset Timer")
         _isRunning.value = false
         timerJob?.cancel()
         breakJob?.cancel()
@@ -265,6 +266,9 @@ class TimerService : LifecycleService() {
         stopSelf()
         _timeUpdates.value = "00:00:00" // Reset to 00:00:00
         updateNotification("00:00:00")
+        startTime = 0 // Reset startTime
+        elapsedTime = 0 // Reset elapsedTime
+        saveState(this, false, false, "00:00:00") // Save the reset state
     }
 
     private fun updateNotification(time: String) {
