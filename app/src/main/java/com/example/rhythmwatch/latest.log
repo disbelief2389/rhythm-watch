@@ -1,48 +1,73 @@
-2025-03-09 02:46:42.614 16773-16773 TimerViewModel          com.example.rhythmwatch              D  Start Work
-2025-03-09 02:46:42.619 16773-16773 TimerService            com.example.rhythmwatch              D  Start Work
-2025-03-09 02:46:42.630 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00
-2025-03-09 02:46:43.638 16773-16779 zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=29KB, data=29KB
-2025-03-09 02:46:43.638 16773-16779 zygote                  com.example.rhythmwatch              I  After code cache collection, code=29KB, data=29KB
-2025-03-09 02:46:43.638 16773-16779 zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 128KB
-2025-03-09 02:46:43.652 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:01
-2025-03-09 02:46:44.648 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:02
-2025-03-09 02:46:45.106 16773-16835 ProfileInstaller        com.example.rhythmwatch              D  Installing profile for com.example.rhythmwatch
-2025-03-09 02:46:45.659 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:03
-2025-03-09 02:46:46.660 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:04
-2025-03-09 02:46:46.664 16773-16779 zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=59KB, data=49KB
-2025-03-09 02:46:46.664 16773-16779 zygote                  com.example.rhythmwatch              I  After code cache collection, code=59KB, data=49KB
-2025-03-09 02:46:46.665 16773-16779 zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 256KB
-2025-03-09 02:46:47.659 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:05
-2025-03-09 02:46:48.664 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:06
-2025-03-09 02:46:49.665 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:07
-2025-03-09 02:46:50.679 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:08
-2025-03-09 02:46:51.680 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:09
-2025-03-09 02:46:51.690 16773-16779 zygote                  com.example.rhythmwatch              I  Do full code cache collection, code=122KB, data=106KB
-2025-03-09 02:46:51.690 16773-16779 zygote                  com.example.rhythmwatch              I  After code cache collection, code=115KB, data=79KB
-2025-03-09 02:46:52.011 16773-16773 TimerViewModel          com.example.rhythmwatch              D  Start Break
-2025-03-09 02:46:52.017 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:09
-2025-03-09 02:46:52.024 16773-16773 TimerService            com.example.rhythmwatch              D  Start Break
-2025-03-09 02:46:52.025 16773-16773 TimerService            com.example.rhythmwatch              D  Break Time in Seconds: 9
-2025-03-09 02:46:52.697 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:10
-2025-03-09 02:46:52.749 16773-16782 zygote                  com.example.rhythmwatch              I  Debugger is no longer active
-2025-03-09 02:46:53.029 16773-16827 TimerService            com.example.rhythmwatch              D  Current Time: 00:08
-2025-03-09 02:46:53.047 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:08
-2025-03-09 02:46:54.032 16773-16827 TimerService            com.example.rhythmwatch              D  Current Time: 00:07
-2025-03-09 02:46:54.047 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:07
-2025-03-09 02:46:55.035 16773-16827 TimerService            com.example.rhythmwatch              D  Current Time: 00:06
-2025-03-09 02:46:55.046 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:06
-2025-03-09 02:46:55.050 16773-16779 zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=121KB, data=103KB
-2025-03-09 02:46:55.050 16773-16779 zygote                  com.example.rhythmwatch              I  After code cache collection, code=121KB, data=103KB
-2025-03-09 02:46:55.050 16773-16779 zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 512KB
-2025-03-09 02:46:56.041 16773-16827 TimerService            com.example.rhythmwatch              D  Current Time: 00:05
-2025-03-09 02:46:56.047 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:05
-2025-03-09 02:46:57.044 16773-16827 TimerService            com.example.rhythmwatch              D  Current Time: 00:04
-2025-03-09 02:46:57.054 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:04
-2025-03-09 02:46:58.048 16773-16827 TimerService            com.example.rhythmwatch              D  Current Time: 00:03
-2025-03-09 02:46:58.055 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:03
-2025-03-09 02:46:59.051 16773-16827 TimerService            com.example.rhythmwatch              D  Current Time: 00:02
-2025-03-09 02:46:59.059 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:02
-2025-03-09 02:47:00.054 16773-16827 TimerService            com.example.rhythmwatch              D  Current Time: 00:01
-2025-03-09 02:47:00.061 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:01
-2025-03-09 02:47:01.058 16773-16827 TimerService            com.example.rhythmwatch              D  Current Time: 00:00
-2025-03-09 02:47:01.080 16773-16773 TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00
+--------- beginning of main
+--------- beginning of system
+---------------------------- PROCESS STARTED (4386) for package com.example.rhythmwatch ----------------------------
+2025-03-09 04:02:15.821  4386-4455  OpenGLRenderer          com.example.rhythmwatch              D  HWUI GL Pipeline
+2025-03-09 04:02:16.487  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00
+2025-03-09 04:02:16.637  4386-4455  <no-tag>                com.example.rhythmwatch              D  HostConnection::get() New Host Connection established 0xa49f4600, tid 4455
+2025-03-09 04:02:16.641  4386-4455  OpenGLRenderer          com.example.rhythmwatch              I  Initialized EGL, version 1.4
+2025-03-09 04:02:16.641  4386-4455  OpenGLRenderer          com.example.rhythmwatch              D  Swap behavior 1
+2025-03-09 04:02:16.641  4386-4455  OpenGLRenderer          com.example.rhythmwatch              W  Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+2025-03-09 04:02:16.641  4386-4455  OpenGLRenderer          com.example.rhythmwatch              D  Swap behavior 0
+2025-03-09 04:02:16.658  4386-4455  EGL_emulation           com.example.rhythmwatch              D  eglCreateContext: 0xa22fc960: maj 2 min 0 rcv 2
+2025-03-09 04:02:16.726  4386-4455  EGL_emulation           com.example.rhythmwatch              D  eglMakeCurrent: 0xa22fc960: ver 2 0 (tinfo 0xa22ff3a0)
+2025-03-09 04:02:16.793  4386-4386  Compose Focus           com.example.rhythmwatch              D  Owner FocusChanged(true)
+2025-03-09 04:02:16.817  4386-4386  SoundPool               com.example.rhythmwatch              W    sample 1 not READY
+2025-03-09 04:02:16.826  4386-4477  OMXClient               com.example.rhythmwatch              I  Treble IOmx obtained
+2025-03-09 04:02:16.830  4386-4386  Choreographer           com.example.rhythmwatch              I  Skipped 53 frames!  The application may be doing too much work on its main thread.
+2025-03-09 04:02:16.862  4386-4455  EGL_emulation           com.example.rhythmwatch              D  eglMakeCurrent: 0xa22fc960: ver 2 0 (tinfo 0xa22ff3a0)
+2025-03-09 04:02:17.141  1435-1521  SurfaceFlinger          surfaceflinger                       E  Failed to find layer (Splash Screen com.example.rhythmwatch#0) in layer parent (no-parent).
+2025-03-09 04:02:18.264  4386-4490  OMXClient               com.example.rhythmwatch              I  Treble IOmx obtained
+2025-03-09 04:02:18.717  4386-4494  OMXClient               com.example.rhythmwatch              I  Treble IOmx obtained
+2025-03-09 04:02:21.205  4386-4559  ProfileInstaller        com.example.rhythmwatch              D  Installing profile for com.example.rhythmwatch
+2025-03-09 04:02:23.332  4386-4386  TimerViewModel          com.example.rhythmwatch              D  Start Work
+2025-03-09 04:02:23.342  4386-4386  TimerService            com.example.rhythmwatch              D  Start Work
+2025-03-09 04:02:23.379  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00
+2025-03-09 04:02:24.383  4386-4391  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=29KB, data=29KB
+2025-03-09 04:02:24.384  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:01
+2025-03-09 04:02:24.386  4386-4391  zygote                  com.example.rhythmwatch              I  After code cache collection, code=29KB, data=29KB
+2025-03-09 04:02:24.389  4386-4391  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 128KB
+2025-03-09 04:02:25.385  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:02
+2025-03-09 04:02:26.394  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:03
+2025-03-09 04:02:27.389  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:04
+2025-03-09 04:02:27.398  4386-4391  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=58KB, data=51KB
+2025-03-09 04:02:27.398  4386-4391  zygote                  com.example.rhythmwatch              I  After code cache collection, code=58KB, data=51KB
+2025-03-09 04:02:27.398  4386-4391  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 256KB
+2025-03-09 04:02:28.397  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:05
+2025-03-09 04:02:29.412  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:06
+2025-03-09 04:02:30.415  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:07
+2025-03-09 04:02:30.434  4386-4394  zygote                  com.example.rhythmwatch              I  Debugger is no longer active
+2025-03-09 04:02:31.412  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:08
+2025-03-09 04:02:32.411  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:09
+2025-03-09 04:02:32.420  4386-4391  zygote                  com.example.rhythmwatch              I  Do full code cache collection, code=122KB, data=112KB
+2025-03-09 04:02:32.420  4386-4391  zygote                  com.example.rhythmwatch              I  After code cache collection, code=117KB, data=86KB
+2025-03-09 04:02:33.429  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:10
+2025-03-09 04:02:33.982  4386-4386  TimerViewModel          com.example.rhythmwatch              D  Start Break
+2025-03-09 04:02:33.986  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:10
+2025-03-09 04:02:33.994  4386-4386  TimerService            com.example.rhythmwatch              D  Start Break
+2025-03-09 04:02:33.995  4386-4386  TimerService            com.example.rhythmwatch              D  Break Time in Seconds: 10
+2025-03-09 04:02:34.433  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:11
+2025-03-09 04:02:35.001  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:09
+2025-03-09 04:02:35.016  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:09
+2025-03-09 04:02:36.004  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:08
+2025-03-09 04:02:36.012  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:08
+2025-03-09 04:02:37.007  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:07
+2025-03-09 04:02:37.018  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:07
+2025-03-09 04:02:37.021  4386-4391  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=122KB, data=113KB
+2025-03-09 04:02:37.021  4386-4391  zygote                  com.example.rhythmwatch              I  After code cache collection, code=122KB, data=113KB
+2025-03-09 04:02:37.021  4386-4391  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 512KB
+2025-03-09 04:02:38.010  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:06
+2025-03-09 04:02:38.025  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:06
+2025-03-09 04:02:39.016  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:05
+2025-03-09 04:02:39.029  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:05
+2025-03-09 04:02:40.021  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:04
+2025-03-09 04:02:40.028  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:04
+2025-03-09 04:02:41.024  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:03
+2025-03-09 04:02:41.034  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:03
+2025-03-09 04:02:42.028  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:02
+2025-03-09 04:02:42.045  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:02
+2025-03-09 04:02:43.032  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:01
+2025-03-09 04:02:43.046  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:01
+2025-03-09 04:02:44.037  4386-4565  TimerService            com.example.rhythmwatch              D  Current Time: 00:00
+2025-03-09 04:02:44.043  4386-4386  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00
+2025-03-09 04:02:44.047  4386-4565  AudioTrack              com.example.rhythmwatch              W  AUDIO_OUTPUT_FLAG_FAST denied by client; transfer 4, track 44100 Hz, output 48000 Hz
+---------------------------- PROCESS ENDED (4386) for package com.example.rhythmwatch ----------------------------

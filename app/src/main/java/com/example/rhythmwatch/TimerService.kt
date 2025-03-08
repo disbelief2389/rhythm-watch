@@ -6,6 +6,10 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -18,6 +22,14 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.Locale
+import android.media.MediaPlayer
+import android.media.AudioManager.OnAudioFocusChangeListener
+import androidx.lifecycle.lifecycleScope
+import com.google.android.exoplayer2.DefaultLoadControl
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.asStateFlow
 
 class TimerService : LifecycleService() {
     inner class LocalBinder : Binder() {
@@ -51,9 +63,81 @@ class TimerService : LifecycleService() {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
+    private var exoPlayer: ExoPlayer? = null
+    private var audioFocusRequest: AudioFocusRequest? = null
+    private var audioManager: AudioManager? = null
+    private var audioFocusChangeListener: AudioManager.OnAudioFocusChangeListener? = null
+
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        initializeExoPlayer()
+        playWelcomeSound()
+
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val audioAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build()
+
+            audioFocusChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
+                when (focusChange) {
+                    AudioManager.AUDIOFOCUS_GAIN -> {
+                        exoPlayer?.play()
+                    }
+                    AudioManager.AUDIOFOCUS_LOSS, AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                        exoPlayer?.pause()
+                    }
+                    AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                        exoPlayer?.volume = 0.2f
+                    }
+                }
+            }
+
+            val audioFocusRequestBuilder = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                .setAudioAttributes(audioAttributes)
+                .setOnAudioFocusChangeListener(audioFocusChangeListener!!)
+            audioFocusRequest = audioFocusRequestBuilder.build()
+        } else {
+            audioFocusChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
+                when (focusChange) {
+                    AudioManager.AUDIOFOCUS_GAIN -> {
+                        exoPlayer?.play()
+                    }
+                    AudioManager.AUDIOFOCUS_LOSS, AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                        exoPlayer?.pause()
+                    }
+                    AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                        exoPlayer?.volume = 0.2f
+                    }
+                }
+            }
+        }
+    }
+
+    private fun requestAudioFocus(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioFocusRequest?.let {
+                return audioManager?.requestAudioFocus(it) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            return audioManager?.requestAudioFocus(audioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+        }
+        return false
+    }
+
+    private fun abandonAudioFocus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioFocusRequest?.let {
+                audioManager?.abandonAudioFocusRequest(it)
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            audioManager?.abandonAudioFocus(audioFocusChangeListener)
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -83,6 +167,11 @@ class TimerService : LifecycleService() {
                 val currentTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
                 updateNotification(currentTime)
                 _timeUpdates.value = currentTime
+
+                // Play interval sound every 30 minutes
+                if (minutes % 30 == 0 && seconds == 0) {
+                    playIntervalSound()
+                }
             }
         }
     }
@@ -119,6 +208,7 @@ class TimerService : LifecycleService() {
             workTimeInSeconds = 0
             _timeUpdates.value = "00:00" // Reset to 00:00 after break
             updateNotification("00:00")
+            playBreakOverSound()
         }
     }
 
@@ -172,6 +262,54 @@ class TimerService : LifecycleService() {
             channel.description = "Timer Service Notification"
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    private fun initializeExoPlayer() {
+        val loadControl = DefaultLoadControl.Builder()
+            .setBufferDurationsMs(
+                5000, // Min Buffer Duration
+                10000, // Max Buffer Duration
+                2500, // Buffer For Playback After Rebuffering
+                5000  // Buffer For Playback
+            )
+            .build()
+
+        exoPlayer = ExoPlayer.Builder(this)
+            .setLoadControl(loadControl)
+            .build()
+    }
+
+    private fun playSound(resId: Int) {
+        if (requestAudioFocus()) {
+            exoPlayer?.stop()
+            exoPlayer?.clearMediaItems()
+            val uri = "android.resource://$packageName/$resId"
+            val mediaItem = MediaItem.fromUri(uri)
+            exoPlayer?.setMediaItem(mediaItem)
+            exoPlayer?.prepare()
+            exoPlayer?.play()
+        } else {
+            Log.w("TimerService", "Failed to get audio focus")
+        }
+    }
+
+    private fun playWelcomeSound() {
+        playSound(R.raw.welcome_sound)
+    }
+
+    private fun playIntervalSound() {
+        playSound(R.raw.interval_sound)
+    }
+
+    private fun playBreakOverSound() {
+        playSound(R.raw.break_over_sound)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        abandonAudioFocus()
+        exoPlayer?.release()
+        exoPlayer = null
     }
 
     companion object {
