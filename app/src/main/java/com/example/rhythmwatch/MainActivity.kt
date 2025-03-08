@@ -51,6 +51,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.Factory
 import androidx.lifecycle.viewModelScope
 import androidx.test.core.app.ApplicationProvider
 import com.example.rhythmwatch.ui.theme.RhythmWatchTheme
@@ -139,18 +140,17 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(backgroundColor.value) // Use animated background color
+            .background(backgroundColor.value)
             .clickable {
-                if (isBreakMode) {
-                    // Do nothing in break mode
-                } else {
+                if (!isBreakMode) {
                     if (isRunning) {
                         viewModel.startBreak()
                     } else {
                         viewModel.startWork()
                     }
                 }
-            }, contentAlignment = Alignment.Center
+            },
+        contentAlignment = Alignment.Center
     ) {
         Column(
             modifier = Modifier
@@ -160,22 +160,18 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.Center
         ) {
             Column(
-                modifier = Modifier
-                    .weight(1f),
+                modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Log.d("TimerScreen", "Current Time: $currentTime")
                 Text(
                     text = currentTime,  // Always show currentTime
-                    fontSize = 48.sp,
-                    color = if (isBreakMode) Color.White else Color.Black
+                    fontSize = 48.sp, color = if (isBreakMode) Color.White else Color.Black
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = tapLabel,
-                    fontSize = 16.sp,
-                    color = Color.Gray, // Tap label remains grey
+                    text = tapLabel, fontSize = 16.sp, color = Color.Gray, // Tap label remains grey
                     textAlign = TextAlign.Center
                 )
             }
@@ -191,9 +187,7 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
                 elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp) // Optional: Remove elevation for a cleaner look
             ) {
                 Text(
-                    text = "Reset",
-                    fontSize = 16.sp,
-                    color = Color.Red // Red text color
+                    text = "Reset", fontSize = 16.sp, color = Color.Red // Red text color
                 )
             }
         }
@@ -309,7 +303,7 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
     }
 }
 
-class TimerViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+class TimerViewModelFactory(private val application: Application) : Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TimerViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST") return TimerViewModel(application) as T
