@@ -209,7 +209,7 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
         super.onCleared()
         try {
             getApplication<Application>().unbindService(serviceConnection)
-        } catch (e: IllegalArgumentException) { /* Ignored */
+        } catch (_: IllegalArgumentException) { /* Ignored */
         }
         timerService = null
     }
