@@ -9,7 +9,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
@@ -59,6 +58,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
+import androidx.core.net.toUri
 
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: TimerViewModel
@@ -109,11 +109,11 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("BatteryLife")
     @RequiresApi(Build.VERSION_CODES.M)
     private fun requestIgnoreBatteryOptimizations() {
-        val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
         val packageName = packageName
         if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
             val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
-            intent.data = Uri.parse("package:$packageName")
+            intent.data = "package:$packageName".toUri()
             startActivity(intent)
         }
     }
@@ -124,6 +124,8 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
     val currentTime by viewModel.currentTime.collectAsState()
     val isRunning by viewModel.isRunning.collectAsState()
     val isBreakMode by viewModel.isBreakMode.collectAsState()
+
+    Log.d("TimerScreen", "Current Time: $currentTime")
 
     val tapLabel = remember(isRunning, isBreakMode) {
         if (isBreakMode) "Enjoy your break!"
@@ -196,6 +198,7 @@ fun TimerScreen(viewModel: TimerViewModel, modifier: Modifier = Modifier) {
 
 class TimerViewModel(application: Application) : AndroidViewModel(application) {
     private var timerService: WeakReference<TimerService>? = null
+    private var isBound = false
 
     private class TimerServiceConnection(
         private val viewModelRef: WeakReference<TimerViewModel>
@@ -217,37 +220,26 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun onServiceDisconnected() {
         timerService = null
-    }
-
-    private val serviceConnection = TimerServiceConnection(WeakReference(this))
-
-    override fun onCleared() {
-        super.onCleared()
-        try {
-            getApplication<Application>().unbindService(serviceConnection)
-        } catch (_: IllegalArgumentException) { /* Ignored */
-        }
-        timerService = null
-    }
-
-    init {
-        // Start observing when ViewModel is created
-        getApplication<Application>().bindService(
-            Intent(getApplication(), TimerService::class.java),
-            serviceConnection,
-            Context.BIND_AUTO_CREATE
-        )
+        isBound = false
     }
 
     private fun observeTimeUpdates() {
         viewModelScope.launch {
             timerService?.get()?.timeUpdates?.collect { time: String ->
                 _currentTime.value = time
+                Log.d("TimerViewModel", "Received Time Update: $time")
             }
         }
         viewModelScope.launch {
             timerService?.get()?.isBreakMode?.collect { isBreak ->
                 _isBreakMode.value = isBreak
+                Log.d("TimerViewModel", "Received Break Mode Update: $isBreak")
+            }
+        }
+        viewModelScope.launch {
+            timerService?.get()?.isRunning?.collect { isRunning ->
+                _isRunning.value = isRunning
+                Log.d("TimerViewModel", "Received Running Update: $isRunning")
             }
         }
     }
@@ -278,9 +270,8 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
         _isRunning.value = false
         _isBreakMode.value = true
 
-        // Immediately set the break time to the current work time
         val currentWorkTime = _currentTime.value
-        _currentTime.value = currentWorkTime
+        Log.d("TimerViewModel", "Starting break with work time: $currentWorkTime")
 
         val context = getApplication<Application>()
         val intent = Intent(context, TimerService::class.java).apply {
@@ -288,6 +279,16 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
             putExtra("BREAK_TIME", currentWorkTime)
         }
         ContextCompat.startForegroundService(context, intent)
+
+        // Ensure the service is already bound before attempting to rebind
+        if (!isBound) {
+            context.bindService(
+                Intent(context, TimerService::class.java),
+                serviceConnection,
+                Context.BIND_AUTO_CREATE
+            )
+            isBound = true
+        }
     }
 
     fun resetTimer() {
@@ -300,6 +301,29 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
         _isRunning.value = false
         _isBreakMode.value = false
         _currentTime.value = "00:00:00" // Ensure the UI reflects the reset
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        try {
+            if (isBound) {
+                getApplication<Application>().unbindService(serviceConnection)
+                isBound = false
+            }
+        } catch (_: IllegalArgumentException) { /* Ignored */ }
+        timerService = null
+    }
+
+    private val serviceConnection = TimerServiceConnection(WeakReference(this))
+
+    init {
+        // Start observing when ViewModel is created
+        getApplication<Application>().bindService(
+            Intent(getApplication(), TimerService::class.java),
+            serviceConnection,
+            Context.BIND_AUTO_CREATE
+        )
+        isBound = true
     }
 }
 

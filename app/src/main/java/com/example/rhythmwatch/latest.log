@@ -1,53 +1,153 @@
---------- beginning of main
---------- beginning of system
-2025-03-09 05:25:44.093  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-3H6W_1iC8IC9cMO62ltn6A==/base.apk
-2025-03-09 05:25:44.094  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-3H6W_1iC8IC9cMO62ltn6A==/base.apk
-2025-03-09 05:25:44.094  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-3H6W_1iC8IC9cMO62ltn6A==/base.apk
----------------------------- PROCESS STARTED (7667) for package com.example.rhythmwatch ----------------------------
-2025-03-09 05:33:23.504  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-znadO0ydfdVc6iRdWopREg==/base.apk
-2025-03-09 05:33:23.504  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-znadO0ydfdVc6iRdWopREg==/base.apk
-2025-03-09 05:33:23.504  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-znadO0ydfdVc6iRdWopREg==/base.apk
-2025-03-09 05:33:57.998  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-QqQQ779FfGXXMwXxoIz3Vg==/base.apk
-2025-03-09 05:33:57.999  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-QqQQ779FfGXXMwXxoIz3Vg==/base.apk
-2025-03-09 05:33:57.999  1916-2197  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-QqQQ779FfGXXMwXxoIz3Vg==/base.apk
-2025-03-09 05:40:50.388  1916-1937  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-ah05GszTqCQ-WprKosM0lQ==/base.apk
-2025-03-09 05:40:50.389  1916-1937  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-ah05GszTqCQ-WprKosM0lQ==/base.apk
-2025-03-09 05:40:50.389  1916-1937  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-ah05GszTqCQ-WprKosM0lQ==/base.apk
-2025-03-09 05:41:38.036  1778-1833  ResourcesManager        system_server                        E  failed to add asset path /data/app/com.example.rhythmwatch-1TWLChidoUcty-i8dC5Mfw==/base.apk
-2025-03-09 05:41:38.168  1916-2263  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-1TWLChidoUcty-i8dC5Mfw==/base.apk
-2025-03-09 05:41:38.168  1916-2263  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-1TWLChidoUcty-i8dC5Mfw==/base.apk
-2025-03-09 05:41:38.168  1916-2263  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-1TWLChidoUcty-i8dC5Mfw==/base.apk
-2025-03-09 05:48:11.455  1778-1833  ResourcesManager        system_server                        E  failed to add asset path /data/app/com.example.rhythmwatch-q1Fw9TaAxiKuXNXqh9_h1Q==/base.apk
-2025-03-09 05:48:11.588  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-q1Fw9TaAxiKuXNXqh9_h1Q==/base.apk
-2025-03-09 05:48:11.590  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-q1Fw9TaAxiKuXNXqh9_h1Q==/base.apk
-2025-03-09 05:48:11.590  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-q1Fw9TaAxiKuXNXqh9_h1Q==/base.apk
-2025-03-09 05:49:34.663  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-SEnVYBiFYu7cW5W49KVdug==/base.apk
-2025-03-09 05:49:34.664  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-SEnVYBiFYu7cW5W49KVdug==/base.apk
-2025-03-09 05:49:34.664  1916-4234  ResourcesManager        com.android.systemui                 E  failed to add asset path /data/app/com.example.rhythmwatch-SEnVYBiFYu7cW5W49KVdug==/base.apk
-2025-03-09 05:52:26.972  7667-7667  zygote                  com.example.rhythmwatch              I  Late-enabling -Xcheck:jni
-2025-03-09 05:52:26.985  7667-7667  zygote                  com.example.rhythmwatch              W  Unexpected CPU variant for X86 using defaults: x86
-2025-03-09 05:52:27.181  7667-7700  OpenGLRenderer          com.example.rhythmwatch              D  HWUI GL Pipeline
-2025-03-09 05:52:27.526  7667-7667  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
-2025-03-09 05:52:27.662  7667-7700  <no-tag>                com.example.rhythmwatch              D  HostConnection::get() New Host Connection established 0xa86f4800, tid 7700
-2025-03-09 05:52:27.667  7667-7700  OpenGLRenderer          com.example.rhythmwatch              I  Initialized EGL, version 1.4
-2025-03-09 05:52:27.667  7667-7700  OpenGLRenderer          com.example.rhythmwatch              D  Swap behavior 1
-2025-03-09 05:52:27.667  7667-7700  OpenGLRenderer          com.example.rhythmwatch              W  Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
-2025-03-09 05:52:27.667  7667-7700  OpenGLRenderer          com.example.rhythmwatch              D  Swap behavior 0
-2025-03-09 05:52:27.678  7667-7700  EGL_emulation           com.example.rhythmwatch              D  eglCreateContext: 0xa86f7b20: maj 2 min 0 rcv 2
-2025-03-09 05:52:27.713  7667-7700  EGL_emulation           com.example.rhythmwatch              D  eglMakeCurrent: 0xa86f7b20: ver 2 0 (tinfo 0xb240b190)
-2025-03-09 05:52:27.748  7667-7667  Compose Focus           com.example.rhythmwatch              D  Owner FocusChanged(true)
-2025-03-09 05:52:27.870  7667-7667  ExoPlayerImpl           com.example.rhythmwatch              I  Init f202107 [AndroidXMedia3/1.5.1] [generic_x86, Android SDK built for x86, Google, 26]
-2025-03-09 05:52:27.959  7667-7667  Choreographer           com.example.rhythmwatch              I  Skipped 41 frames!  The application may be doing too much work on its main thread.
-2025-03-09 05:52:27.977  7667-7700  EGL_emulation           com.example.rhythmwatch              D  eglMakeCurrent: 0xa86f7b20: ver 2 0 (tinfo 0xb240b190)
-2025-03-09 05:52:28.128  7667-7679  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=29KB, data=25KB
-2025-03-09 05:52:28.129  7667-7679  zygote                  com.example.rhythmwatch              I  After code cache collection, code=29KB, data=25KB
-2025-03-09 05:52:28.129  7667-7679  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 128KB
-2025-03-09 05:52:28.452  7667-7703  VideoCapabilities       com.example.rhythmwatch              I  Unsupported profile 4 for video/mp4v-es
-2025-03-09 05:52:28.524  7667-7710  OMXClient               com.example.rhythmwatch              I  Treble IOmx obtained
-2025-03-09 05:52:28.530  7667-7710  ACodec                  com.example.rhythmwatch              I  codec does not support config priority (err -2147483648)
-2025-03-09 05:52:28.595  7667-7703  AudioTrack              com.example.rhythmwatch              D  Client defaulted notificationFrames to 3675 for frameCount 11025
-2025-03-09 05:52:29.949  7667-7679  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=59KB, data=46KB
-2025-03-09 05:52:29.949  7667-7679  zygote                  com.example.rhythmwatch              I  After code cache collection, code=59KB, data=46KB
-2025-03-09 05:52:29.949  7667-7679  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 256KB
-2025-03-09 05:52:32.361  7667-7718  ProfileInstaller        com.example.rhythmwatch              D  Installing profile for com.example.rhythmwatch
-2025-03-09 05:52:35.201  7667-7703  AudioTrack              com.example.rhythmwatch              D  stop() called with 294912 frames delivered
+2025-03-09 15:19:34.867  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Start Work
+2025-03-09 15:19:34.872  7520-7520  TimerService            com.example.rhythmwatch              D  Start Work
+2025-03-09 15:19:34.872  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Running Update: true
+2025-03-09 15:19:34.882  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:34.884  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:34.887  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:00
+2025-03-09 15:19:34.888  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:00, Elapsed Time: 0, Time Difference: 0
+2025-03-09 15:19:35.876  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:00
+2025-03-09 15:19:35.876  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:00, Elapsed Time: 994, Time Difference: 994
+2025-03-09 15:19:35.878  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:00
+2025-03-09 15:19:35.878  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:00, Elapsed Time: 997, Time Difference: 3
+2025-03-09 15:19:35.881  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:00
+2025-03-09 15:19:35.881  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:00, Elapsed Time: 999, Time Difference: 2
+2025-03-09 15:19:35.882  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:01
+2025-03-09 15:19:35.883  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:01
+2025-03-09 15:19:35.883  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:01, Elapsed Time: 1001, Time Difference: 2
+2025-03-09 15:19:35.892  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:01
+2025-03-09 15:19:35.894  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:01
+2025-03-09 15:19:36.874  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:01
+2025-03-09 15:19:36.874  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:01, Elapsed Time: 1992, Time Difference: 991
+2025-03-09 15:19:36.877  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:01
+2025-03-09 15:19:36.877  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:01, Elapsed Time: 1994, Time Difference: 2
+2025-03-09 15:19:36.880  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:01
+2025-03-09 15:19:36.880  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:01, Elapsed Time: 1998, Time Difference: 4
+2025-03-09 15:19:36.882  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:02
+2025-03-09 15:19:36.887  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:02
+2025-03-09 15:19:36.887  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:02, Elapsed Time: 2001, Time Difference: 3
+2025-03-09 15:19:36.890  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:02
+2025-03-09 15:19:36.891  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:02
+2025-03-09 15:19:36.907  7520-7530  zygote                  com.example.rhythmwatch              I  Do full code cache collection, code=121KB, data=90KB
+2025-03-09 15:19:36.907  7520-7530  zygote                  com.example.rhythmwatch              I  After code cache collection, code=96KB, data=57KB
+2025-03-09 15:19:37.874  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:02
+2025-03-09 15:19:37.874  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:02, Elapsed Time: 2993, Time Difference: 992
+2025-03-09 15:19:37.883  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:02
+2025-03-09 15:19:37.883  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:02, Elapsed Time: 2995, Time Difference: 2
+2025-03-09 15:19:37.884  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:03
+2025-03-09 15:19:37.889  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:03
+2025-03-09 15:19:37.889  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:03, Elapsed Time: 3004, Time Difference: 9
+2025-03-09 15:19:37.890  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:03
+2025-03-09 15:19:37.892  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:03
+2025-03-09 15:19:38.813  7520-7532  zygote                  com.example.rhythmwatch              I  Debugger is no longer active
+2025-03-09 15:19:38.874  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:03
+2025-03-09 15:19:38.874  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:03, Elapsed Time: 3993, Time Difference: 989
+2025-03-09 15:19:38.877  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:03
+2025-03-09 15:19:38.877  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:03, Elapsed Time: 3995, Time Difference: 2
+2025-03-09 15:19:38.879  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:03
+2025-03-09 15:19:38.879  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:03, Elapsed Time: 3997, Time Difference: 2
+2025-03-09 15:19:38.880  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:04
+2025-03-09 15:19:38.885  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:04
+2025-03-09 15:19:38.885  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:04, Elapsed Time: 4000, Time Difference: 3
+2025-03-09 15:19:38.889  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:04
+2025-03-09 15:19:38.891  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:04
+2025-03-09 15:19:39.877  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:04
+2025-03-09 15:19:39.877  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:04, Elapsed Time: 4993, Time Difference: 993
+2025-03-09 15:19:39.883  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:04
+2025-03-09 15:19:39.883  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:04, Elapsed Time: 4997, Time Difference: 4
+2025-03-09 15:19:39.884  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:05
+2025-03-09 15:19:39.889  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:05
+2025-03-09 15:19:39.889  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:05, Elapsed Time: 5004, Time Difference: 7
+2025-03-09 15:19:39.893  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:05
+2025-03-09 15:19:39.894  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:05
+2025-03-09 15:19:40.875  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:05
+2025-03-09 15:19:40.875  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:05, Elapsed Time: 5994, Time Difference: 990
+2025-03-09 15:19:40.878  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:05
+2025-03-09 15:19:40.878  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:05, Elapsed Time: 5995, Time Difference: 1
+2025-03-09 15:19:40.881  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:05
+2025-03-09 15:19:40.881  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:05, Elapsed Time: 5998, Time Difference: 3
+2025-03-09 15:19:40.884  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:06
+2025-03-09 15:19:40.885  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:06
+2025-03-09 15:19:40.885  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:06, Elapsed Time: 6002, Time Difference: 4
+2025-03-09 15:19:40.898  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:06
+2025-03-09 15:19:40.900  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:06
+2025-03-09 15:19:40.906  7520-7530  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=104KB, data=98KB
+2025-03-09 15:19:40.907  7520-7530  zygote                  com.example.rhythmwatch              I  After code cache collection, code=104KB, data=98KB
+2025-03-09 15:19:40.907  7520-7530  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 512KB
+2025-03-09 15:19:41.877  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:06
+2025-03-09 15:19:41.877  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:06, Elapsed Time: 6993, Time Difference: 991
+2025-03-09 15:19:41.881  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:06
+2025-03-09 15:19:41.881  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:06, Elapsed Time: 6998, Time Difference: 5
+2025-03-09 15:19:41.883  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:07
+2025-03-09 15:19:41.887  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:07
+2025-03-09 15:19:41.887  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:07, Elapsed Time: 7002, Time Difference: 4
+2025-03-09 15:19:41.901  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:07
+2025-03-09 15:19:41.902  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:07
+2025-03-09 15:19:42.874  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:07
+2025-03-09 15:19:42.874  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:07, Elapsed Time: 7993, Time Difference: 991
+2025-03-09 15:19:42.876  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:07
+2025-03-09 15:19:42.876  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:07, Elapsed Time: 7994, Time Difference: 1
+2025-03-09 15:19:42.879  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:07
+2025-03-09 15:19:42.880  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:07, Elapsed Time: 7997, Time Difference: 3
+2025-03-09 15:19:42.881  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:08
+2025-03-09 15:19:42.886  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:08
+2025-03-09 15:19:42.887  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:08
+2025-03-09 15:19:42.888  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:08
+2025-03-09 15:19:42.888  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:08, Elapsed Time: 8000, Time Difference: 3
+2025-03-09 15:19:43.874  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:08
+2025-03-09 15:19:43.874  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:08, Elapsed Time: 8993, Time Difference: 993
+2025-03-09 15:19:43.875  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:08
+2025-03-09 15:19:43.875  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:08, Elapsed Time: 8994, Time Difference: 1
+2025-03-09 15:19:43.879  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:08
+2025-03-09 15:19:43.879  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:08, Elapsed Time: 8996, Time Difference: 2
+2025-03-09 15:19:43.881  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:08
+2025-03-09 15:19:43.882  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:08, Elapsed Time: 8999, Time Difference: 3
+2025-03-09 15:19:43.883  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:09
+2025-03-09 15:19:43.886  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:09
+2025-03-09 15:19:43.886  7520-7598  TimerService            com.example.rhythmwatch              D  Current Time: 00:00:09, Elapsed Time: 9002, Time Difference: 3
+2025-03-09 15:19:43.894  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:09
+2025-03-09 15:19:43.896  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:09
+2025-03-09 15:19:44.331  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Start Break
+2025-03-09 15:19:44.341  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:09
+2025-03-09 15:19:44.342  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:09
+2025-03-09 15:19:44.354  7520-7520  TimerService            com.example.rhythmwatch              D  Start Break
+2025-03-09 15:19:44.354  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Running Update: false
+2025-03-09 15:19:44.355  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Break Mode Update: true
+2025-03-09 15:19:44.358  7520-7520  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:09
+2025-03-09 15:19:44.358  7520-7520  TimerService            com.example.rhythmwatch              D  Initial Break Time: 00:00:09
+2025-03-09 15:19:44.360  7520-7598  TimerService            com.example.rhythmwatch              D  Current Break Time: 00:00:09
+2025-03-09 15:19:44.362  7520-7598  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:09
+2025-03-09 15:19:44.362  7520-7598  TimerService            com.example.rhythmwatch              D  Emitting Break Time Update: 00:00:09
+2025-03-09 15:19:44.362  7520-7598  TimerService            com.example.rhythmwatch              D  Delay Time: 9993
+2025-03-09 15:19:44.378  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:09
+2025-03-09 15:19:44.446  7520-7520  chatty                  com.example.rhythmwatch              I  uid=10078(u0_a78) com.example.rhythmwatch identical 8 lines
+2025-03-09 15:19:44.448  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:09
+2025-03-09 15:19:44.453  7520-7530  zygote                  com.example.rhythmwatch              I  Do full code cache collection, code=247KB, data=199KB
+2025-03-09 15:19:44.455  7520-7530  zygote                  com.example.rhythmwatch              I  After code cache collection, code=208KB, data=156KB
+2025-03-09 15:19:44.464  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:09
+2025-03-09 15:19:44.627  7520-7520  chatty                  com.example.rhythmwatch              I  uid=10078(u0_a78) com.example.rhythmwatch identical 16 lines
+2025-03-09 15:19:44.627  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:09
+2025-03-09 15:19:44.933  7520-7530  zygote                  com.example.rhythmwatch              I  Do partial code cache collection, code=247KB, data=202KB
+2025-03-09 15:19:44.933  7520-7530  zygote                  com.example.rhythmwatch              I  After code cache collection, code=247KB, data=202KB
+2025-03-09 15:19:44.933  7520-7530  zygote                  com.example.rhythmwatch              I  Increasing code cache capacity to 1024KB
+2025-03-09 15:19:54.357  7520-7601  TimerService            com.example.rhythmwatch              D  Current Break Time: 00:00:00
+2025-03-09 15:19:54.366  7520-7601  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:00
+2025-03-09 15:19:54.366  7520-7601  TimerService            com.example.rhythmwatch              D  Emitting Break Time Update: 00:00:00
+2025-03-09 15:19:54.366  7520-7601  TimerService            com.example.rhythmwatch              D  Delay Time: -9012
+2025-03-09 15:19:54.367  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Time Update: 00:00:00
+2025-03-09 15:19:54.367  7520-7520  TimerViewModel          com.example.rhythmwatch              D  Received Break Mode Update: false
+2025-03-09 15:19:54.372  7520-7601  TimerService            com.example.rhythmwatch              D  Updating Notification with Time: 00:00:00
+2025-03-09 15:19:54.381  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:54.472  7520-7520  chatty                  com.example.rhythmwatch              I  uid=10078(u0_a78) com.example.rhythmwatch identical 4 lines
+2025-03-09 15:19:54.473  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:54.488  7520-7612  OMXClient               com.example.rhythmwatch              I  Treble IOmx obtained
+2025-03-09 15:19:54.492  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:54.494  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:54.496  7520-7612  ACodec                  com.example.rhythmwatch              I  codec does not support config priority (err -2147483648)
+2025-03-09 15:19:54.510  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:54.511  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:54.528  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:54.529  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:54.535  7520-7576  AudioTrack              com.example.rhythmwatch              D  Client defaulted notificationFrames to 3675 for frameCount 11025
+2025-03-09 15:19:54.550  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00
+2025-03-09 15:19:54.736  7520-7520  chatty                  com.example.rhythmwatch              I  uid=10078(u0_a78) com.example.rhythmwatch identical 22 lines
+2025-03-09 15:19:54.737  7520-7520  TimerScreen             com.example.rhythmwatch              D  Current Time: 00:00:00

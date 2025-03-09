@@ -54,6 +54,7 @@ class TimerService : LifecycleService() {
     private val _isRunning = MutableStateFlow(false)
     private val _isBreakMode = MutableStateFlow(false)
 
+    val isRunning = _isRunning.asStateFlow()
     val isBreakMode = _isBreakMode.asStateFlow()
 
     private var timerJob: Job? = null
@@ -178,26 +179,30 @@ class TimerService : LifecycleService() {
         startTime = SystemClock.elapsedRealtime() // Reset startTime
         elapsedTime = 0 // Reset elapsedTime
 
-        var lastIntervalTime = 0L
-
         timerJob = lifecycleScope.launch(Dispatchers.IO) {
             var lastCheckTime = SystemClock.elapsedRealtime()
             while (_isRunning.value) {
                 val currentTime = SystemClock.elapsedRealtime()
-                elapsedTime += currentTime - lastCheckTime
+                val timeDifference = currentTime - lastCheckTime
+                elapsedTime += timeDifference
                 lastCheckTime = currentTime
-                val currentTimeStr = formatTime(elapsedTime.toInt() / 1000)
+
+                val currentTimeStr = formatTime((elapsedTime / 1000).toInt())
                 _timeUpdates.value = currentTimeStr
                 updateNotification(currentTimeStr)
-                Log.d("TimerService", "Current Time: $currentTimeStr")
+                Log.d("TimerService", "Current Time: $currentTimeStr, Elapsed Time: $elapsedTime, Time Difference: $timeDifference")
 
                 // Play interval sound every 30 minutes
-                if (elapsedTime >= lastIntervalTime + 1800000) { // 30 minutes in milliseconds
+                if (elapsedTime >= (workTimeInSeconds + 1800) * 1000L) { // 30 minutes in milliseconds
+                    Log.d("TimerService", "Playing interval sound")
                     playIntervalSound()
-                    lastIntervalTime = elapsedTime
+                    workTimeInSeconds += 1800
                 }
 
-                delay(1000)
+                // Calculate the exact delay to the next second boundary
+                val nextSecondBoundary = ((elapsedTime / 1000) + 1) * 1000L
+                val delayTime = nextSecondBoundary - (SystemClock.elapsedRealtime() - startTime)
+                delay(delayTime)
             }
         }
     }
@@ -207,40 +212,42 @@ class TimerService : LifecycleService() {
         _isRunning.value = false
         _isBreakMode.value = true
 
-        // Get the break time from the intent
         val breakTime = intent.getStringExtra("BREAK_TIME") ?: "00:00"
         val timeParts = breakTime.split(":").map { it.toIntOrNull() ?: 0 }
-        elapsedTime = timeParts[0] * 3600000L + timeParts[1] * 60000L + timeParts.getOrNull(2)!! * 1000L
-        startTime = SystemClock.elapsedRealtime()
+        var elapsedTime = timeParts[0] * 3600000L + timeParts[1] * 60000L + timeParts.getOrNull(2)!! * 1000L
+        val startTime = SystemClock.elapsedRealtime()
 
-        // Ensure the initial time is set correctly
-        val initialTime = formatTime((elapsedTime / 1000).toInt())
-        _timeUpdates.value = initialTime
-        updateNotification(initialTime)
+        var currentTime = formatTime((elapsedTime / 1000).toInt())
+        _timeUpdates.value = currentTime
+        updateNotification(currentTime)
 
-        // Start the break countdown
         breakJob = lifecycleScope.launch(Dispatchers.IO) {
             var lastCheckTime = SystemClock.elapsedRealtime()
             while (elapsedTime > 0) {
                 val currentTime = SystemClock.elapsedRealtime()
-                elapsedTime -= currentTime - lastCheckTime
+                val timeDifference = currentTime - lastCheckTime
                 lastCheckTime = currentTime
+                elapsedTime -= timeDifference
 
                 if (elapsedTime <= 0) {
                     elapsedTime = 0
                 }
 
                 val currentTimeStr = formatTime((elapsedTime / 1000).toInt())
-                Log.d("TimerService", "Current Break Time: $currentTimeStr")
-                updateNotification(currentTimeStr)
                 _timeUpdates.value = currentTimeStr
+                updateNotification(currentTimeStr)
+                Log.d("TimerService", "Break Time: $currentTimeStr")
 
-                delay(1000)
+                // Calculate the exact delay to the next second boundary
+                val nextSecondBoundary = ((elapsedTime / 1000) + 1) * 1000L
+                val delayTime = nextSecondBoundary - (SystemClock.elapsedRealtime() - startTime)
+                Log.d("TimerService", "Break Delay Time: $delayTime")
+                delay(delayTime)
             }
+            // Break ended
             _isBreakMode.value = false
-            startTime = 0
-            elapsedTime = 0
-            _timeUpdates.value = "00:00:00" // Reset to 00:00:00 after break
+            _isRunning.value = false
+            _timeUpdates.value = "00:00:00"
             updateNotification("00:00:00")
             playBreakOverSound()
         }
@@ -272,6 +279,7 @@ class TimerService : LifecycleService() {
     private fun updateNotification(time: String) {
         val notification = createNotification(time)
         startForeground(notificationId, notification)
+        Log.d("TimerService", "Updating Notification with Time: $time")
     }
 
     private fun createNotification(time: String): Notification {
@@ -332,7 +340,8 @@ class TimerService : LifecycleService() {
                 player?.prepare()
                 player?.play()
             } else {
-                Log.w("TimerService", "Failed to get audio focus")
+                Log.e("TimerService", "Failed to get audio focus")
+                // Handle failure, e.g., retry or play sound silently
             }
         }
     }
