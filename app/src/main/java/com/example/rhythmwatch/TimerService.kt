@@ -193,8 +193,6 @@ class TimerService : LifecycleService() {
                 // Play interval sound every 30 minutes
                 if (elapsedTime >= 1800000) { // 30 minutes in milliseconds
                     playIntervalSound()
-                    startTime = SystemClock.elapsedRealtime()
-                    elapsedTime = 0
                 }
 
                 delay(1000)
