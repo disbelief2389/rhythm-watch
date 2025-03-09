@@ -179,6 +179,8 @@ class TimerService : LifecycleService() {
         startTime = SystemClock.elapsedRealtime() // Reset startTime
         elapsedTime = 0 // Reset elapsedTime
 
+        var lastIntervalTime = 0L
+
         timerJob = lifecycleScope.launch(Dispatchers.IO) {
             var lastCheckTime = SystemClock.elapsedRealtime()
             while (_isRunning.value) {
@@ -191,8 +193,9 @@ class TimerService : LifecycleService() {
                 Log.d("TimerService", "Current Time: $currentTimeStr")
 
                 // Play interval sound every 30 minutes
-                if (elapsedTime >= 1800000) { // 30 minutes in milliseconds
+                if (elapsedTime >= lastIntervalTime + 1800000) { // 30 minutes in milliseconds
                     playIntervalSound()
+                    lastIntervalTime = elapsedTime
                 }
 
                 delay(1000)
