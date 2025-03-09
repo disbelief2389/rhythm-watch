@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
@@ -61,7 +60,7 @@ class TimerService : LifecycleService() {
     private var breakJob: Job? = null
 
     private val notificationManager: NotificationManager by lazy {
-        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     }
 
     private var exoPlayer: ExoPlayer? = null
@@ -75,7 +74,7 @@ class TimerService : LifecycleService() {
         initializePlayer()
         playWelcomeSound()
 
-        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
@@ -290,7 +289,7 @@ class TimerService : LifecycleService() {
                 ).setSmallIcon(R.drawable.ic_notification) // Ensure you have this drawable
                 .setContentIntent(pendingIntent).setPriority(NotificationCompat.PRIORITY_LOW)
                 .build()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // Fallback notification
             NotificationCompat.Builder(this, notificationChannelId).setContentTitle("RhythmWatch")
                 .setSmallIcon(android.R.drawable.ic_dialog_info).build()
