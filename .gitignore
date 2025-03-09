@@ -1,3 +1,4 @@
+# Ignore IntelliJ IDEA project files
 *.iml
 .gradle
 /local.properties
@@ -7,9 +8,21 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+
+# Ignore macOS specific files
 .DS_Store
+
+# Ignore build directories
 /build
 /captures
 .externalNativeBuild
 .cxx
+
+# Ignore local properties file
 local.properties
+
+# Ignore specific binary files
+app/release/app-release.apk
+app/release/baselineProfiles/0/app-release.dm
+app/release/baselineProfiles/1/app-release.dm
+app/release/output-metadata.json
